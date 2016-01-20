@@ -5,7 +5,6 @@ set -e
 PKGHOME="${HOME}/.pkgbrew"
 PKGHOST="http://ftp.jp.netbsd.org/pub/pkgsrc/stable/pkgsrc.tar.bz2"
 PKGSRC="${PKGHOME}/src"
-SELF="${0}"
 
 download(){
     from="${1}"
@@ -15,56 +14,6 @@ download(){
 	http://*) wget -O "${dist}" "${from}" ;;
 	*) cp "${from}" "${dist}" ;;
     esac
-}
-
-cmd_init(){
-    
-    if [ -d "${PKGHOME}" ]; then
-	echo pkgbrew already installed
-	exit 1
-    fi
-	
-    workdir=`mktemp -d`
-
-    download "${PKGHOST}" "${workdir}/pkgsrc.tar.bz2" 
-
-    tar --extract                \
-	--verbose                \
-	--bzip2                  \
-	--directory "${workdir}" \
-	--file "${workdir}/pkgsrc.tar.bz2"
-
-    prev="${SH}"
-    export SH="/bin/bash"
-    ${workdir}/pkgsrc/bootstrap/bootstrap \
-	--ignore-user-check               \
-	--workdir="${workdir}/work"       \
-	--prefix="${PKGHOME}"
-    export SH="${prev}"
-
-    cp --recursive "${workdir}/pkgsrc" "${PKGSRC}"
-    cp "${SELF}" "${PKGHOME}/bin/"
-
-    cat<<EOF > "${PKGHOME}/etc/mk.conf"
-# Example ${PKGHOME}/etc/mk.conf file produced by pkgbrew
-# `date`
-
-.ifdef BSD_PKG_MK	# begin pkgsrc settings
-
-UNPRIVILEGED=		yes
-PKG_DBDIR=		${PKGHOME}/var/db/pkg
-LOCALBASE=		${PKGHOME}
-VARBASE=		${PKGHOME}/var
-PKG_TOOLS_BIN=		${PKGHOME}/sbin
-PKGINFODIR=		info
-PKGMANDIR=		man
-
-TOOLS_PLATFORM.awk?=	${PKGHOME}/bin/nawk
-TOOLS_PLATFORM.sh?=	${SHELL}
-
-PKG_DEFAULT_OPTIONS=    -x11 -gtk2 -gkt3 -gnome -kde
-.endif			# end pkgsrc settings
-EOF
 }
 
 cmd_search(){
@@ -148,7 +97,6 @@ main(){
     package="${2}"
 
     case "${command}" in
-	"init") cmd_init ;;
 	"help") cmd_help ;;
 	"search") cmd_search "${package}" ;;
 	"setup-for") cmd_setup_for "${package}";;
