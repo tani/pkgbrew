@@ -30,15 +30,15 @@ $ pkgbrew help
 ## Installation
 
 ```
-$ ./brew setup-for bashrc > ~/.bashrc 
+$ ./pkgbrew setup-for bashrc > ~/.bashrc 
 ```
 or
 ```
-$ ./brew setup-for zshrc > ~/.zshrc 
+$ ./pkgbrew setup-for zshrc > ~/.zshrc 
 ```
 or 
 ```
-$ ./brew setup-for tschrc > ~/.tschrc 
+$ ./pkgbrew setup-for tschrc > ~/.tschrc 
 ```
 
 ## Dependencies
