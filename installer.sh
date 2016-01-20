@@ -43,7 +43,7 @@ main(){
     export SH="${prev}"
 
     cp --recursive "${workdir}/pkgsrc" "${PKGSRC}"
-    download "${PKGBREW}" "${PKGHOME}/bin/"
+    download "${PKGBREW}" "${PKGHOME}/bin/pkgbrew"
     chmod +x "${PKGHOME}/bin/pkgbrew"
 
     cat<<EOF > "${PKGHOME}/etc/mk.conf"
