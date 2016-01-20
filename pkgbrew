@@ -1,0 +1,160 @@
+#!/bin/sh
+
+set -e
+
+PKGHOME="${HOME}/.pkgbrew"
+PKGHOST="${HOME}/Downloads/pkgsrc.tar.bz2"
+PKGSRC="${PKGHOME}/src"
+SELF="${0}"
+
+download(){
+    from="${1}"
+    dist="${2}"
+    case "${from}" in
+	https://*) wget -O "${dist}" "${from}" ;;
+	http://*) wget -O "${dist}" "${from}" ;;
+	*) cp "${from}" "${dist}" ;;
+    esac
+}
+
+setup(){
+    workdir=`mktemp -d`
+
+    download "${PKGHOST}" "${workdir}/pkgsrc.tar.bz2" 
+
+    tar --extract                \
+	--verbose                \
+	--bzip2                  \
+	--directory "${workdir}" \
+	--file "${workdir}/pkgsrc.tar.bz2"
+
+    prev="${SH}"
+    export SH="/bin/bash"
+    ${workdir}/pkgsrc/bootstrap/bootstrap \
+	--ignore-user-check               \
+	--workdir="${workdir}/work"       \
+	--prefix="${PKGHOME}"
+    export SH="${prev}"
+
+    cp --recursive "${workdir}/pkgsrc" "${PKGSRC}"
+    cp "${SELF}" "${PKGHOME}/bin/"
+
+    cat<<EOF > "${PKGHOME}/etc/mk.conf"
+# Example ${PKGHOME}/etc/mk.conf file produced by pkgbrew
+# `date`
+
+.ifdef BSD_PKG_MK	# begin pkgsrc settings
+
+UNPRIVILEGED=		yes
+PKG_DBDIR=		${PKGHOME}/var/db/pkg
+LOCALBASE=		${PKGHOME}
+VARBASE=		${PKGHOME}/var
+PKG_TOOLS_BIN=		${PKGHOME}/sbin
+PKGINFODIR=		info
+PKGMANDIR=		man
+
+TOOLS_PLATFORM.awk?=	${PKGHOME}/bin/nawk
+TOOLS_PLATFORM.sh?=	${SHELL}
+
+PKG_DEFAULT_OPTIONS=    -x11
+.endif			# end pkgsrc settings
+EOF
+}
+
+cmd_search(){
+    package="${1}"
+    find "${PKGSRC}" -maxdepth 2 \
+	| grep "${package}"  \
+	| sed --expression="s%${PKGSRC}/%%" 
+}
+
+cmd_setup_for(){
+    case "${1}" in
+	"bashrc"|"zshrc")
+	    echo '# for pkgbrew'
+	    echo export 'PATH='${PKGHOME}/bin:'$PATH'
+	    echo export 'MANPATH='${PKGHOME}/man:'$MANPATH'
+	    ;;
+	"tcshrc")
+	    echo '# for pkgbrew'
+	    echo setenv 'PATH='${PKGHOME}/bin:'$PATH'
+	    echo setenv 'MANPATH='${PKGHOME}/man:'$MANPATH'
+	    ;;
+    esac
+}
+
+cmd_help(){
+    cat<<EOF
+pkgbrew <command> [<package>]
+command:
+
+    help		: show usage 
+    search		: search packages
+    setup		: show setup example 
+
+    Build pkgsrc package 
+
+    depends		: build and install dependencies
+    fetch		: fetch distribution file(s)
+    checksum		: fetch and check distribution file(s)
+    extract		: look at unmodified source
+    patch		: look at initial source
+    configure		: stop after configure stage
+    all or build	: stop after build stage
+    stage-install	: install under stage directory
+    test		: run package's self-tests, if any exist and supported
+    package		: create binary package before installing it
+    replace		: change (upgrade, downgrade, or just replace) installed package in-place
+    deinstall		: deinstall previous package
+    package-install	: install package and build binary package
+    install		: install package
+    bin-install		: attempt to skip building from source and use pre-built binary package
+    show-depends        : print dependencies for building
+    show-options        : print available options from options.mk
+
+    Cleanup targets (in separate section because of importance):
+
+    clean-depends	: remove work directories for dependencies
+    clean		: remove work directory
+    distclean		: remove distribution file(s)
+    package-clean	: remove binary package
+
+EOF
+}
+
+run_command(){
+    command="${1}"
+    package="${PKGSRC}/${2}"
+
+    if [ ! -e "${package}" ]; then
+	echo No package \'${2}\' found, did you mead:
+	cmd_search "${2}" | sed --expression="s/^/ /"
+	echo pi: package not found
+	exit 1;
+    fi
+
+    cd "${package}"
+    ${PKGHOME}/bin/bmake "${command}" 
+}
+
+main(){
+    command="${1}"
+    package="${2}"
+
+    [ -e "${PKGHOME}" ] || setup
+
+    case "${command}" in
+	"help") cmd_help ;;
+	"search") cmd_search "${package}" ;;
+	"setup-for") cmd_setup_for "${package}";;
+	*) run_command "${command}" "${package}" ;;
+    esac
+}
+
+if [ ! ${#} -eq 2 -o "${1}" = "help" ];then
+    echo "Invalid arguments\n"
+    cmd_help
+    exit 1
+fi
+
+main "${1}" "${2}"
