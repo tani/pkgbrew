@@ -30,18 +30,7 @@ $ pkgbrew help
 ## Installation
 
 ```
-$ ./pkgbrew init
-$ ./pkgbrew setup-for bashrc >> ~/.bashrc 
-```
-or
-```
-$ ./pkgbrew init
-$ ./pkgbrew setup-for zshrc >> ~/.zshrc 
-```
-or 
-```
-$ ./pkgbrew init
-$ ./pkgbrew setup-for tschrc >> ~/.tschrc 
+wget -O- https://raw.githubusercontent.com/ta2gch/pkgbrew/master/installer.sh | /bin/sh
 ```
 
 ## Dependencies
