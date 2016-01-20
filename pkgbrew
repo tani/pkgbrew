@@ -23,21 +23,6 @@ cmd_search(){
 	| sed --expression="s%${PKGSRC}/%%" 
 }
 
-cmd_setup_for(){
-    case "${1}" in
-	"bashrc"|"zshrc")
-	    echo '# for pkgbrew'
-	    echo export 'PATH='${PKGHOME}/bin:'$PATH'
-	    echo export 'MANPATH='${PKGHOME}/man:'$MANPATH'
-	    ;;
-	"tcshrc")
-	    echo '# for pkgbrew'
-	    echo setenv 'PATH='${PKGHOME}/bin:'$PATH'
-	    echo setenv 'MANPATH='${PKGHOME}/man:'$MANPATH'
-	    ;;
-    esac
-}
-
 cmd_help(){
     cat<<EOF
 pkgbrew <command> [<package>]
@@ -45,7 +30,6 @@ command:
 
     help		: show usage 
     search		: search packages
-    setup-for		: show setup example 
 
     Build pkgsrc package 
 
@@ -80,7 +64,7 @@ EOF
 run_command(){
     command="${1}"
     package="${PKGSRC}/${2}"
-    
+
     if [ ! -n "${2}" -o ! -d "${package}" ]; then
 	echo No package \'${2}\' found, did you mead:
 	cmd_search "${2}" | sed --expression="s/^/ /"
@@ -89,7 +73,7 @@ run_command(){
     fi
 
     cd "${package}"
-    ${PKGHOME}/bin/bmake "${command}" 
+    ${PKGHOME}/bin/bmake "${command}"
 }
 
 main(){
@@ -99,8 +83,7 @@ main(){
     case "${command}" in
 	"help") cmd_help ;;
 	"search") cmd_search "${package}" ;;
-	"setup-for") cmd_setup_for "${package}";;
-	
+
 	"help") run_command "${1}" "${2}" ;;
 	"search") run_command "${1}" "${2}" ;;
 	"setup") run_command "${1}" "${2}" ;;
@@ -121,12 +104,12 @@ main(){
 	"bin-install") run_command "${1}" "${2}" ;;
 	"show-depends") run_command "${1}" "${2}" ;;
 	"show-options") run_command "${1}" "${2}" ;;
-	
+
 	"clean-depends") run_command "${1}" "${2}" ;;
 	"clean") run_command "${1}" "${2}" ;;
 	"distclean") run_command "${1}" "${2}" ;;
 	"package-clean") run_command "${1}" "${2}" ;;
-	
+
 	*)  echo Invalid command: ${1}
 	    cmd_help ;;
     esac
