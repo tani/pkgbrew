@@ -3,7 +3,7 @@
 set -e
 
 PKGHOME="${HOME}/.pkgbrew"
-PKGHOST="${HOME}/Downloads/pkgsrc.tar.bz2"
+PKGHOST="http://ftp.netbsd.org/pub/pkgsrc/stable/pkgsrc.tar.bz2"
 PKGSRC="${PKGHOME}/src"
 SELF="${0}"
 
