@@ -3,7 +3,7 @@
 set -e
 
 PKGHOME="${HOME}/.pkgbrew"
-PKGHOST="http://ftp.netbsd.org/pub/pkgsrc/stable/pkgsrc.tar.bz2"
+PKGHOST="http://ftp.jp.netbsd.org/pub/pkgsrc/stable/pkgsrc.tar.bz2"
 PKGSRC="${PKGHOME}/src"
 SELF="${0}"
 
@@ -17,7 +17,7 @@ download(){
     esac
 }
 
-setup(){
+cmd_init(){
     workdir=`mktemp -d`
 
     download "${PKGHOST}" "${workdir}/pkgsrc.tar.bz2" 
@@ -141,20 +141,24 @@ main(){
     command="${1}"
     package="${2}"
 
-    [ -e "${PKGHOME}" ] || setup
-
     case "${command}" in
 	"help") cmd_help ;;
+	"init") cmd_init ;;
 	"search") cmd_search "${package}" ;;
 	"setup-for") cmd_setup_for "${package}";;
 	*) run_command "${command}" "${package}" ;;
     esac
 }
 
-if [ ! ${#} -eq 2 -o "${1}" = "help" ];then
-    echo "Invalid arguments\n"
-    cmd_help
-    exit 1
+if [ "${1}" = "help" -o "${1}" = "init" ];then
+    main "${1}" "${2}"
+    exit 0
+else 
+    if [ ! ${#} -eq 2 -o ];then
+        echo "Invalid arguments\n"
+        cmd_help
+        exit 1
+    fi 
 fi
 
 main "${1}" "${2}"

@@ -30,14 +30,17 @@ $ pkgbrew help
 ## Installation
 
 ```
+$ ./pkgbrew init
 $ ./pkgbrew setup-for bashrc >> ~/.bashrc 
 ```
 or
 ```
+$ ./pkgbrew init
 $ ./pkgbrew setup-for zshrc >> ~/.zshrc 
 ```
 or 
 ```
+$ ./pkgbrew init
 $ ./pkgbrew setup-for tschrc >> ~/.tschrc 
 ```
 
@@ -46,5 +49,18 @@ $ ./pkgbrew setup-for tschrc >> ~/.tschrc
 ### Debian/Ubuntu
 
 ```
-sudo apt-get install build-essential libncurses-dev libncursesw-dev
+sudo apt-get install build-essential
 ```
+
+## Author
+
+TANIGUCHI Masaya
+
+## Copyright
+
+Copyright(c) 2016 TANIGUCHI Masaya (ta2gch@gmail.com)
+
+## License
+
+BSD License (2 clause)
+
