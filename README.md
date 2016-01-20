@@ -9,13 +9,13 @@ cmmand line interface for pkgsrc
 $ pkgbrew install editors/emacs
 ```
 
-### Uninstall pakcage
+### Uninstall package
 
 ```
 $ pkgbrew deinstall editors/emacs
 ```
 
-### Search pakcage
+### Search package
 
 ```
 $ pkgbrew search emacs
