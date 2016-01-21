@@ -19,7 +19,7 @@ tap_without_check(){
     download "https://github.com/${1}/archive/master.zip" \
 	     "${workdir}/master.zip"
     
-    unzip "${workdir}/master.zip" -d "${workdir}"
+    unzip "${workdir}/master.zip" -d "${workdir}" > /dev/null
     
     echo Copying files...
 
