@@ -6,7 +6,17 @@ set -e
 : ${PKGHOME:="${HOME}/.pkgbrew"}
 : ${PKGHOST:="http://ftp.jp.netbsd.org/pub/pkgsrc/stable/pkgsrc.tar.bz2"}
 : ${PKGSRC:="${PKGHOME}/src"}
+version(){
+    cat<<EOF
+pkgbrew revision : cbac2b566d6ef1af2e3e0ac691f8440f1981c3ec
+pkgsrc   version : stable
 
+Copyright(c) 2016 TANIGUCHI Masaya
+
+pkgbrew is a non-root package management tool.
+Homepage: https://github.com/ta2gch/pkgbrew
+EOF
+}
 help(){
     cat<<EOF
 pkgbrew <command> [<package>]
@@ -16,6 +26,7 @@ command:
     search		: search packages
     tap                 : add user repository
     untap               : remove user repository
+    version             : output version information
 
     Build pkgsrc package 
 
@@ -133,6 +144,7 @@ main(){
 	"search") search "${package}" ;;
 	"tap") tap "${package}" ;;
 	"untap") untap "${package}" ;;
+	"version") version ;;
 
 	"help") run_command "${1}" "${2}" ;;
 	"search") run_command "${1}" "${2}" ;;
