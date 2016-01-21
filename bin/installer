@@ -1,18 +1,29 @@
 #!/bin/sh
 
-set -e
+set -xe
 
-PKGBREW="https://raw.githubusercontent.com/ta2gch/pkgbrew/master/pkgbrew"
-PKGHOST="http://ftp.jp.netbsd.org/pub/pkgsrc/stable/pkgsrc.tar.bz2"
-PKGHOME="${HOME}/.pkgbrew"
-PKGSRC="${PKGHOME}/src"
+: ${PKGBREW:="https://raw.githubusercontent.com/ta2gch/pkgbrew/master/pkgbrew"}
+: ${PKGHOME:="${HOME}/.pkgbrew"}
+: ${PKGHOST:="http://ftp.jp.netbsd.org/pub/pkgsrc/stable/pkgsrc.tar.bz2"}
+: ${PKGSRC:="${PKGHOME}/src"}
+
+
+download_1(){
+    from="${1}"
+    dist="${2}"
+    if which wget > /dev/null ; then
+	wget -O "${dist}" "${from}"
+    elif which curl > /dev/null ; then
+	curl -L -o "${dist}" -O "{from}"
+    fi
+}
 
 download(){
     from="${1}"
     dist="${2}"
     case "${from}" in
-	https://*) wget -O "${dist}" "${from}" ;;
-	http://*) wget -O "${dist}" "${from}" ;;
+	https://*) download_1 "${from}" "${dist}" ;;
+	http://*) download_1 "${from}" "${dist}" ;;
 	*) cp "${from}" "${dist}" ;;
     esac
 }
@@ -42,6 +53,7 @@ main(){
 	--prefix="${PKGHOME}"
     export SH="${prev}"
 
+    echo Copying files...
     cp --recursive "${workdir}/pkgsrc" "${PKGSRC}"
     download "${PKGBREW}" "${PKGHOME}/bin/pkgbrew"
     chmod +x "${PKGHOME}/bin/pkgbrew"
@@ -66,7 +78,7 @@ TOOLS_PLATFORM.sh?=	/bin/bash
 PKG_DEFAULT_OPTIONS=    -x11 -gtk2 -gkt3 -gnome -kde
 .endif			# end pkgsrc settings
 EOF
-    
+
 }
 
 main
