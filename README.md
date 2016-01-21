@@ -21,6 +21,19 @@ $ pkgbrew deinstall editors/emacs
 $ pkgbrew search emacs
 ```
 
+### Manage user repository (tap/untap)
+
+```
+$ pkgbrew tap <username>/<repository> # Github
+$ pkgbrew untap <username>/<repository>
+```
+
+For example,
+
+```
+$ pkgbrew tap NetBSD/pkgsrc-wip
+```
+
 ### Show Usage
 
 ```
