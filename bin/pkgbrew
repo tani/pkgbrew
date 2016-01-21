@@ -8,7 +8,7 @@ set -e
 : ${PKGSRC:="${PKGHOME}/src"}
 version(){
     cat<<EOF
-pkgbrew revision : 1d7a420
+pkgbrew revision : 9c091fb
 pkgsrc   version : stable
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -103,7 +103,7 @@ tap_without_check(){
     download "https://github.com/${1}/archive/master.zip" \
 	     "${workdir}/master.zip"
     
-    unzip "${workdir}/master.zip" -d "${workdir}"
+    unzip "${workdir}/master.zip" -d "${workdir}" > /dev/null
     
     echo Copying files...
 
