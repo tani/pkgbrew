@@ -3,6 +3,7 @@
 PKGHOME=./test
 PKGBREW=./bin/pkgbrew
 
-. ./bin/installer
+. ./bin/installer > installer.log
+tail installer.log
 
-rm -rf $PKGHOME
+rm -rf "${PKGHOME}" installer.log
