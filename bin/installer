@@ -7,7 +7,6 @@ set -e
 : ${PKGHOST:="http://ftp.jp.netbsd.org/pub/pkgsrc/stable/pkgsrc.tar.bz2"}
 : ${PKGSRC:="${PKGHOME}/src"}
 
-
 download_1(){
     from="${1}"
     dist="${2}"

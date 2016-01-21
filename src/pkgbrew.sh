@@ -3,6 +3,7 @@
 set -e
 
 #?include src/config.sh
+#?include src/version.sh
 #?include src/help.sh
 #?include src/search.sh
 #?include src/tap.sh
@@ -31,6 +32,7 @@ main(){
 	"search") search "${package}" ;;
 	"tap") tap "${package}" ;;
 	"untap") untap "${package}" ;;
+	"version") version ;;
 
 	"help") run_command "${1}" "${2}" ;;
 	"search") run_command "${1}" "${2}" ;;
