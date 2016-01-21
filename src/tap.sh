@@ -41,9 +41,8 @@ untap(){
 	exit 1;
     fi
     
-    rm --recursive \
-       --verbose   \
-       `convert_repository_name "${1}"`
+    echo Deleting files...
+    rm --recursive `convert_repository_name "${1}"`
 
     cp "${PKGHOME}/etc/user-repositories" \
        "${PKGHOME}/etc/user-repositories.bak"
