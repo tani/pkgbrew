@@ -17,8 +17,9 @@ main(){
 
     download "${PKGHOST}" "${workdir}/pkgsrc.tar.bz2" 
 
+    echo Extracing files...
+
     tar --extract                \
-	--verbose                \
 	--bzip2                  \
 	--directory "${workdir}" \
 	--file "${workdir}/pkgsrc.tar.bz2"

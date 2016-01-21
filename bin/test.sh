@@ -1,6 +1,6 @@
 #! /bin/sh
 
-set -x
+set -ex
 
 export PKGHOME="${PWD}/test"
 export PKGBREW="${PWD}/bin/pkgbrew"
@@ -16,8 +16,11 @@ pkgbrew install misc/less
 pkgbrew deinstall misc/less
 pkgbrew clean-depends misc/less
 pkgbrew clean misc/less
-pkgbrew tap NetBSD/pkgsrc-wip > /dev/null
-pkgbrew untap NetBSD/pkgsrc-wip > /dev/null
+pkgbrew update
+pkgbrew tap NetBSD/pkgsrc-wip
+pkgbrew update
+pkgbrew untap NetBSD/pkgsrc-wip
 pkgbrew test misc/less
+pkgbrew version
 
 rm -rf "${PKGHOME}" installer.log

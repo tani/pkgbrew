@@ -7,6 +7,7 @@ set -e
 #?include src/help.sh
 #?include src/search.sh
 #?include src/tap.sh
+#?include src/update.sh
 
 run_command(){
     command="${1}"
@@ -33,6 +34,7 @@ main(){
 	"tap") tap "${package}" ;;
 	"untap") untap "${package}" ;;
 	"version") version ;;
+	"update") update ;;
 
 	"help") run_command "${1}" "${2}" ;;
 	"search") run_command "${1}" "${2}" ;;
