@@ -1,4 +1,6 @@
 # pkgbrew
+[![Build Status](https://travis-ci.org/ta2gch/pkgbrew.svg?branch=master)](https://travis-ci.org/ta2gch/pkgbrew)
+
 cmmand line interface for pkgsrc
 
 ## Usage
