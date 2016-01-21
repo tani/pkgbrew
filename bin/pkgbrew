@@ -2,28 +2,13 @@
 
 set -e
 
-PKGHOME="${HOME}/.pkgbrew"
-PKGHOST="http://ftp.jp.netbsd.org/pub/pkgsrc/stable/pkgsrc.tar.bz2"
-PKGSRC="${PKGHOME}/src"
+: ${PKGBREW:="https://raw.githubusercontent.com/ta2gch/pkgbrew/master/pkgbrew"}
+: ${PKGHOME:="${HOME}/.pkgbrew"}
+: ${PKGHOST:="http://ftp.jp.netbsd.org/pub/pkgsrc/stable/pkgsrc.tar.bz2"}
+: ${PKGSRC:="${PKGHOME}/src"}
 
-download(){
-    from="${1}"
-    dist="${2}"
-    case "${from}" in
-	https://*) wget -O "${dist}" "${from}" ;;
-	http://*) wget -O "${dist}" "${from}" ;;
-	*) cp "${from}" "${dist}" ;;
-    esac
-}
 
-cmd_search(){
-    package="${1}"
-    find "${PKGSRC}" -maxdepth 2 \
-	| grep "${package}"  \
-	| sed --expression="s%${PKGSRC}/%%" 
-}
-
-cmd_help(){
+help(){
     cat<<EOF
 pkgbrew <command> [<package>]
 command:
@@ -61,6 +46,13 @@ command:
 EOF
 }
 
+search(){
+    package="${1}"
+    find "${PKGSRC}" -maxdepth 2 \
+	| grep "${package}"  \
+	| sed --expression="s%${PKGSRC}/%%" 
+}
+
 run_command(){
     command="${1}"
     package="${PKGSRC}/${2}"
@@ -81,8 +73,8 @@ main(){
     package="${2}"
 
     case "${command}" in
-	"help") cmd_help ;;
-	"search") cmd_search "${package}" ;;
+	"help") help ;;
+	"search") search "${package}" ;;
 
 	"help") run_command "${1}" "${2}" ;;
 	"search") run_command "${1}" "${2}" ;;
