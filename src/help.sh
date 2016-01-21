@@ -8,6 +8,7 @@ command:
     tap                 : add user repository
     untap               : remove user repository
     version             : output version information
+    update              : update repositories
 
     Build pkgsrc package 
 

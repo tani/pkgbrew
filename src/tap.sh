@@ -10,7 +10,10 @@ tap(){
 	echo repository already exits: ${1}
 	exit 1;
     fi
-    
+    tap_without_check "${1}"
+}
+
+tap_without_check(){
     workdir=`mktemp -d`
     
     download "https://github.com/${1}/archive/master.zip" \
@@ -18,10 +21,13 @@ tap(){
     
     unzip "${workdir}/master.zip" -d "${workdir}"
     
+    echo Copying files...
+
     cp --recursive                           \
-       --verbose                             \
        "${workdir}/`basename "${1}"`-master" \
        `convert_repository_name "${1}"`
+
+    echo ${1} >> "${PKGHOME}/etc/user-repositories"
 }
 
 untap(){
@@ -36,4 +42,12 @@ untap(){
     rm --recursive \
        --verbose   \
        `convert_repository_name "${1}"`
+
+    cp "${PKGHOME}/etc/user-repositories" \
+       "${PKGHOME}/etc/user-repositories.bak"
+
+    cat "${PKGHOME}/etc/user-repositories.bak" \
+	| sed -e "s%${1}%#%g"                  \
+	| sed -e "/#/d"                        \
+	> "${PKGHOME}/etc/user-repositories"
 }

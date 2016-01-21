@@ -2,7 +2,7 @@
 
 set -e
 
-: ${PKGBREW:="https://raw.githubusercontent.com/ta2gch/pkgbrew/master/pkgbrew"}
+: ${PKGBREW:="https://raw.githubusercontent.com/ta2gch/pkgbrew/master/bin/pkgbrew"}
 : ${PKGHOME:="${HOME}/.pkgbrew"}
 : ${PKGHOST:="http://ftp.jp.netbsd.org/pub/pkgsrc/stable/pkgsrc.tar.bz2"}
 : ${PKGSRC:="${PKGHOME}/src"}
@@ -38,8 +38,9 @@ main(){
 
     download "${PKGHOST}" "${workdir}/pkgsrc.tar.bz2" 
 
+    echo Extracing files...
+
     tar --extract                \
-	--verbose                \
 	--bzip2                  \
 	--directory "${workdir}" \
 	--file "${workdir}/pkgsrc.tar.bz2"
