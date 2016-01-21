@@ -10,14 +10,14 @@ tail installer.log
 
 export PATH="${PKGHOME}/bin:${PATH}"
 
+pkgbrew help
 pkgbrew search emacs
 pkgbrew install misc/less
 pkgbrew deinstall misc/less
-pkgbrew clean-deps misc/less
+pkgbrew clean-depends misc/less
 pkgbrew clean misc/less
 pkgbrew tap NetBSD/pkgsrc-wip > /dev/null
 pkgbrew untap NetBSD/pkgsrc-wip > /dev/null
 pkgbrew test misc/less
-
 
 rm -rf "${PKGHOME}" installer.log
