@@ -1,0 +1,5 @@
+language: bash
+before_install:
+  - sudo apt-get install wget build-essential
+script:
+  - make test
