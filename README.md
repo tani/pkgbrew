@@ -43,7 +43,7 @@ $ pkgbrew help
 ## Installation
 
 ```
-$ wget -O- https://raw.githubusercontent.com/ta2gch/pkgbrew/master/bin/installer.sh | /bin/sh
+$ wget -O- https://git.io/pkgbrew | /bin/sh
 
 $ echo 'export PATH=$HOME/.pkgbrew/bin:$PATH' >> ~/.bashrc
 $ echo 'export MANPATH=$HOME/.pkgbrew/man:$MANPATH' >> ~/.bashrc
