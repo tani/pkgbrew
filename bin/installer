@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -xe
+set -e
 
 : ${PKGBREW:="https://raw.githubusercontent.com/ta2gch/pkgbrew/master/pkgbrew"}
 : ${PKGHOME:="${HOME}/.pkgbrew"}
