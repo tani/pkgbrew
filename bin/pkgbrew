@@ -7,7 +7,6 @@ set -e
 : ${PKGHOST:="http://ftp.jp.netbsd.org/pub/pkgsrc/stable/pkgsrc.tar.bz2"}
 : ${PKGSRC:="${PKGHOME}/src"}
 
-
 help(){
     cat<<EOF
 pkgbrew <command> [<package>]
@@ -45,12 +44,67 @@ command:
 
 EOF
 }
-
 search(){
     package="${1}"
     find "${PKGSRC}" -maxdepth 2 \
 	| grep "${package}"  \
 	| sed --expression="s%${PKGSRC}/%%" 
+}
+download_1(){
+    from="${1}"
+    dist="${2}"
+    if which wget > /dev/null ; then
+	wget -O "${dist}" "${from}"
+    elif which curl > /dev/null ; then
+	curl -L -o "${dist}" -O "{from}"
+    fi
+}
+
+download(){
+    from="${1}"
+    dist="${2}"
+    case "${from}" in
+	https://*) download_1 "${from}" "${dist}" ;;
+	http://*) download_1 "${from}" "${dist}" ;;
+	*) cp "${from}" "${dist}" ;;
+    esac
+}
+
+convert_repository_name(){
+    echo "${PKGSRC}/`echo ${1} | sed -e 's%/%-%g'`"
+}
+
+tap(){
+    if [ -d `convert_repository_name "${1}"` ]; then
+	echo repository already exits: ${1}
+	exit 1;
+    fi
+    
+    workdir=`mktemp -d`
+    
+    download "https://github.com/${1}/archive/master.zip" \
+	     "${workdir}/master.zip"
+    
+    unzip "${workdir}/master.zip" -d "${workdir}"
+    
+    cp --recursive                           \
+       --verbose                             \
+       "${workdir}/`basename "${1}"`-master" \
+       `convert_repository_name "${1}"`
+}
+
+untap(){
+    if [ -z `echo ${1} | tr -d -c '/'` ]; then
+	echo \'${1}\' is not user repository
+	exit 1;
+    elif [ ! -d `convert_repository_name "${1}"` ]; then
+	echo repository already removed: ${1}
+	exit 1;
+    fi
+    
+    rm --recursive \
+       --verbose   \
+       `convert_repository_name "${1}"`
 }
 
 run_command(){
@@ -59,7 +113,7 @@ run_command(){
 
     if [ ! -n "${2}" -o ! -d "${package}" ]; then
 	echo No package \'${2}\' found, did you mead:
-	cmd_search "${2}" | sed --expression="s/^/ /"
+	search "${2}" | sed --expression="s/^/ /"
 	echo pkgbrew: package not found
 	exit 1;
     fi
@@ -75,6 +129,8 @@ main(){
     case "${command}" in
 	"help") help ;;
 	"search") search "${package}" ;;
+	"tap") tap "${package}" ;;
+	"untap") untap "${package}" ;;
 
 	"help") run_command "${1}" "${2}" ;;
 	"search") run_command "${1}" "${2}" ;;
@@ -103,7 +159,7 @@ main(){
 	"package-clean") run_command "${1}" "${2}" ;;
 
 	*)  echo Invalid command: ${1}
-	    cmd_help ;;
+	    help ;;
     esac
 }
 

@@ -3,10 +3,9 @@
 set -e
 
 #?include src/config.sh
-
 #?include src/help.sh
-
 #?include src/search.sh
+#?include src/tap.sh
 
 run_command(){
     command="${1}"
@@ -14,7 +13,7 @@ run_command(){
 
     if [ ! -n "${2}" -o ! -d "${package}" ]; then
 	echo No package \'${2}\' found, did you mead:
-	cmd_search "${2}" | sed --expression="s/^/ /"
+	search "${2}" | sed --expression="s/^/ /"
 	echo pkgbrew: package not found
 	exit 1;
     fi
@@ -30,6 +29,8 @@ main(){
     case "${command}" in
 	"help") help ;;
 	"search") search "${package}" ;;
+	"tap") tap "${package}" ;;
+	"untap") untap "${package}" ;;
 
 	"help") run_command "${1}" "${2}" ;;
 	"search") run_command "${1}" "${2}" ;;
@@ -58,7 +59,7 @@ main(){
 	"package-clean") run_command "${1}" "${2}" ;;
 
 	*)  echo Invalid command: ${1}
-	    cmd_help ;;
+	    help ;;
     esac
 }
 
