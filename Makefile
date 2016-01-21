@@ -11,6 +11,7 @@ $(TARGETS): %: src/%.sh
 
 clean:
 	rm -rf bin/installer bin/pkgbrew *~ */*~
+	rm -rf test/ installer.log
 
 test: $(TARGETS)
 	sh bin/test.sh
