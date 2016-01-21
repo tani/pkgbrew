@@ -8,7 +8,7 @@ set -e
 : ${PKGSRC:="${PKGHOME}/src"}
 version(){
     cat<<EOF
-pkgbrew revision : 9c091fb
+pkgbrew revision : 24ed99b
 pkgsrc   version : stable
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -103,6 +103,8 @@ tap_without_check(){
     download "https://github.com/${1}/archive/master.zip" \
 	     "${workdir}/master.zip"
     
+    echo Extracting files...
+
     unzip "${workdir}/master.zip" -d "${workdir}" > /dev/null
     
     echo Copying files...
@@ -123,9 +125,8 @@ untap(){
 	exit 1;
     fi
     
-    rm --recursive \
-       --verbose   \
-       `convert_repository_name "${1}"`
+    echo Deleting files...
+    rm --recursive `convert_repository_name "${1}"`
 
     cp "${PKGHOME}/etc/user-repositories" \
        "${PKGHOME}/etc/user-repositories.bak"
