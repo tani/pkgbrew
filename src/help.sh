@@ -5,6 +5,8 @@ command:
 
     help		: show usage 
     search		: search packages
+    tap                 : add user repository
+    untap               : remove user repository
 
     Build pkgsrc package 
 
