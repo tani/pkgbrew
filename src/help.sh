@@ -7,6 +7,7 @@ command:
     search		: search packages
     tap                 : add user repository
     untap               : remove user repository
+    version             : output version information
 
     Build pkgsrc package 
 
