@@ -9,6 +9,7 @@ command:
     untap               : remove user repository
     version             : output version information
     update              : update repositories
+    description         : show description of pacakge
 
     Build pkgsrc package 
 
