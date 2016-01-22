@@ -8,7 +8,7 @@ set -e
 : ${PKGSRC:="${PKGHOME}/src"}
 version(){
     cat<<EOF
-pkgbrew revision : 50a078d
+pkgbrew revision : 2ccbcd5
 pkgsrc   version : stable
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -178,8 +178,10 @@ run_command(){
     fi
 
     cd "${package}"
-    ${PKGHOME}/bin/bmake "${command}" \
-	| awk "
+    if [ "${command}" = "show-depends" -o "${command}" = "show-options" ]; then
+	${PKGHOME}/bin/bmake "${command}" 
+    else
+	${PKGHOME}/bin/bmake "${command}" | awk "
 BEGIN {
     flag=0
 }
@@ -197,6 +199,7 @@ BEGIN {
     print;
 }
 "
+    fi
 }
 
 main(){
