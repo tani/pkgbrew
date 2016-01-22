@@ -4,12 +4,12 @@ set -e
 
 : ${PKGBREW:="https://raw.githubusercontent.com/ta2gch/pkgbrew/master/bin/pkgbrew"}
 : ${PKGHOME:="${HOME}/.pkgbrew"}
-: ${PKGHOST:="http://ftp.jp.netbsd.org/pub/pkgsrc/stable/pkgsrc.tar.bz2"}
+: ${PKGHOST:="https://github.com/jsonn/pkgsrc/archive/trunk.zip"}
 : ${PKGSRC:="${PKGHOME}/src"}
 version(){
     cat<<EOF
-pkgbrew revision : 3f43163
-pkgsrc   version : stable
+pkgbrew revision : c8820a5
+pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 
 pkgbrew comes with ABSOLUTELY NO WARRANTY.
@@ -139,18 +139,15 @@ untap(){
 update(){
     workdir=`mktemp -d`
 
-    download "${PKGHOST}" "${workdir}/pkgsrc.tar.bz2"
+    download "${PKGHOST}" "${workdir}/trunk.bz2" 
 
-    echo Extracting files...
+    echo Extracing files...
 
-    tar --extract                \
-	--bzip2                  \
-	--directory "${workdir}" \
-	--file "${workdir}/pkgsrc.tar.bz2"
+    unzip "${workdir}/trunk.zip" -d "${workdir}" > /dev/null
 
     echo Copying files...
 
-    cp --recursive --force "${workdir}/pkgsrc" "${PKGSRC}"
+    cp --recursive --force "${workdir}/pkgsrc-trunk" "${PKGSRC}"
 
     if [ -f "${PKGHOME}/etc/user-repositories" ]; then
 	cat "${PKGHOME}/etc/user-repositories" | while read $repo ;do

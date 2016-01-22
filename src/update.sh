@@ -5,18 +5,15 @@
 update(){
     workdir=`mktemp -d`
 
-    download "${PKGHOST}" "${workdir}/pkgsrc.tar.bz2"
+    download "${PKGHOST}" "${workdir}/trunk.bz2" 
 
-    echo Extracting files...
+    echo Extracing files...
 
-    tar --extract                \
-	--bzip2                  \
-	--directory "${workdir}" \
-	--file "${workdir}/pkgsrc.tar.bz2"
+    unzip "${workdir}/trunk.zip" -d "${workdir}" > /dev/null
 
     echo Copying files...
 
-    cp --recursive --force "${workdir}/pkgsrc" "${PKGSRC}"
+    cp --recursive --force "${workdir}/pkgsrc-trunk" "${PKGSRC}"
 
     if [ -f "${PKGHOME}/etc/user-repositories" ]; then
 	cat "${PKGHOME}/etc/user-repositories" | while read $repo ;do
