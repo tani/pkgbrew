@@ -17,9 +17,9 @@ pkgbrew deinstall misc/less
 pkgbrew clean-depends misc/less
 pkgbrew clean misc/less
 pkgbrew update
-pkgbrew tap NetBSD/pkgsrc-wip
+pkgbrew tap ta2gch/pkgsrc-goodies
 pkgbrew update
-pkgbrew untap NetBSD/pkgsrc-wip
+pkgbrew untap ta2gch/pkgsrc-goodies
 pkgbrew test misc/less
 pkgbrew version
 
