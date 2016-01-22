@@ -21,7 +21,10 @@ run_command(){
     fi
 
     cd "${package}"
-    ${PKGHOME}/bin/bmake "${command}"
+    ${PKGHOME}/bin/bmake "${command}" \
+	| awk "
+#?include src/filter.awk
+"
 }
 
 main(){
