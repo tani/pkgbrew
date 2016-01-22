@@ -15,25 +15,22 @@ main(){
 	
     workdir=`mktemp -d`
 
-    download "${PKGHOST}" "${workdir}/pkgsrc.tar.bz2" 
+    download "${PKGHOST}" "${workdir}/trunk.bz2" 
 
     echo Extracing files...
 
-    tar --extract                \
-	--bzip2                  \
-	--directory "${workdir}" \
-	--file "${workdir}/pkgsrc.tar.bz2"
+    unzip "${workdir}/trunk.zip" -d "${workdir}" > /dev/null
 
     prev="${SH}"
     export SH="/bin/bash"
-    ${workdir}/pkgsrc/bootstrap/bootstrap \
+    ${workdir}/pkgsrc-trunk/bootstrap/bootstrap \
 	--ignore-user-check               \
 	--workdir="${workdir}/work"       \
 	--prefix="${PKGHOME}"
     export SH="${prev}"
 
     echo Copying files...
-    cp --recursive "${workdir}/pkgsrc" "${PKGSRC}"
+    cp --recursive "${workdir}/pkgsrc-trunk" "${PKGSRC}"
     download "${PKGBREW}" "${PKGHOME}/bin/pkgbrew"
     chmod +x "${PKGHOME}/bin/pkgbrew"
 
