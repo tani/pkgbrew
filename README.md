@@ -17,6 +17,12 @@ $ pkgbrew install editors/emacs
 $ pkgbrew deinstall editors/emacs
 ```
 
+### Update package
+
+```
+$ pkgbrew replace editors/emacs
+```
+
 ### Search package
 
 ```
@@ -28,6 +34,7 @@ $ pkgbrew search emacs
 ```
 $ pkgbrew tap <username>/<repository> # Github
 $ pkgbrew untap <username>/<repository>
+$ pkgbrew update # for all repository
 ```
 
 For example,
