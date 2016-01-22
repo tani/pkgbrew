@@ -13,7 +13,7 @@ update(){
 
     echo Copying files...
 
-    cp --recursive --force "${workdir}/pkgsrc-trunk" "${PKGSRC}"
+    mv --force "${workdir}/pkgsrc-trunk" "${PKGSRC}"
 
     if [ -f "${PKGHOME}/etc/user-repositories" ]; then
 	cat "${PKGHOME}/etc/user-repositories" | while read $repo ;do
