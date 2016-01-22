@@ -8,7 +8,7 @@ set -e
 : ${PKGSRC:="${PKGHOME}/src"}
 version(){
     cat<<EOF
-pkgbrew revision : c8820a5
+pkgbrew revision : caecf43
 pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 

@@ -15,7 +15,7 @@ main(){
 	
     workdir=`mktemp -d`
 
-    download "${PKGHOST}" "${workdir}/trunk.bz2" 
+    download "${PKGHOST}" "${workdir}/trunk.zip" 
 
     echo Extracing files...
 
