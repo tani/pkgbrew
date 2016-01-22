@@ -8,7 +8,7 @@ set -e
 : ${PKGSRC:="${PKGHOME}/src"}
 version(){
     cat<<EOF
-pkgbrew revision : caecf43
+pkgbrew revision : 74a9949
 pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -138,7 +138,7 @@ untap(){
 update(){
     workdir=`mktemp -d`
 
-    download "${PKGHOST}" "${workdir}/trunk.bz2" 
+    download "${PKGHOST}" "${workdir}/trunk.zip" 
 
     echo Extracing files...
 
