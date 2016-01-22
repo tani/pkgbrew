@@ -21,10 +21,13 @@ run_command(){
     fi
 
     cd "${package}"
-    ${PKGHOME}/bin/bmake "${command}" \
-	| awk "
+    if [ "${command}" = "show-depends" -o "${command}" = "show-options" ]; then
+	${PKGHOME}/bin/bmake "${command}" 
+    else
+	${PKGHOME}/bin/bmake "${command}" | awk "
 #?include src/filter.awk
 "
+    fi
 }
 
 main(){
