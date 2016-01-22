@@ -18,13 +18,11 @@ update(){
 
     cp --recursive --force "${workdir}/pkgsrc" "${PKGSRC}"
 
-    if [ ! -e "${PKGHOME}/etc/user-repositories" ]; then
-	touch "${PKGHOME}/etc/user-repositories"
+    if [ -f "${PKGHOME}/etc/user-repositories" ]; then
+	cat "${PKGHOME}/etc/user-repositories" | while read $repo ;do
+	    tap_without_check "$repo"
+	done
     fi
-
-    cat "${PKGHOME}/etc/user-repositories" | while read $repo ;do
-	tap_without_check "$repo"
-    done
 
     download "${PKGBREW}" "${PKGHOME}/bin/pkgbrew"
 

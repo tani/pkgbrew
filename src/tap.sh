@@ -11,6 +11,7 @@ tap(){
 	exit 1;
     fi
     tap_without_check "${1}"
+    echo ${1} >> "${PKGHOME}/etc/user-repositories"
 }
 
 tap_without_check(){
@@ -28,8 +29,6 @@ tap_without_check(){
     cp --recursive                           \
        "${workdir}/`basename "${1}"`-master" \
        `convert_repository_name "${1}"`
-
-    echo ${1} >> "${PKGHOME}/etc/user-repositories"
 }
 
 untap(){
