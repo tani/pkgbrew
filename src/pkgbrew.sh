@@ -8,6 +8,7 @@ set -e
 #?include src/search.sh
 #?include src/tap.sh
 #?include src/update.sh
+#?include src/description.sh
 
 run_command(){
     command="${1}"
@@ -41,32 +42,33 @@ main(){
 	"untap") untap "${package}" ;;
 	"version") version ;;
 	"update") update ;;
+	"description") description "${package}";;
 
-	"help") run_command "${1}" "${2}" ;;
-	"search") run_command "${1}" "${2}" ;;
-	"setup") run_command "${1}" "${2}" ;;
-	"depends") run_command "${1}" "${2}" ;;
-	"fetch") run_command "${1}" "${2}" ;;
-	"checksum") run_command "${1}" "${2}" ;;
-	"extract") run_command "${1}" "${2}" ;;
-	"patch") run_command "${1}" "${2}" ;;
-	"configure") run_command "${1}" "${2}" ;;
-	"all or build") run_command "${1}" "${2}" ;;
-	"stage-install") run_command "${1}" "${2}" ;;
-	"test") run_command "${1}" "${2}" ;;
-	"package") run_command "${1}" "${2}" ;;
-	"replace") run_command "${1}" "${2}" ;;
-	"deinstall") run_command "${1}" "${2}" ;;
-	"package-install") run_command "${1}" "${2}" ;;
-	"install") run_command "${1}" "${2}" ;;
-	"bin-install") run_command "${1}" "${2}" ;;
-	"show-depends") run_command "${1}" "${2}" ;;
-	"show-options") run_command "${1}" "${2}" ;;
+	"help") run_command "${command}" "${package}" ;;
+	"search") run_command "${command}" "${package}" ;;
+	"setup") run_command "${command}" "${package}" ;;
+	"depends") run_command "${command}" "${package}" ;;
+	"fetch") run_command "${command}" "${package}" ;;
+	"checksum") run_command "${command}" "${package}" ;;
+	"extract") run_command "${command}" "${package}" ;;
+	"patch") run_command "${command}" "${package}" ;;
+	"configure") run_command "${command}" "${package}" ;;
+	"all or build") run_command "${command}" "${package}" ;;
+	"stage-install") run_command "${command}" "${package}" ;;
+	"test") run_command "${command}" "${package}" ;;
+	"package") run_command "${command}" "${package}" ;;
+	"replace") run_command "${command}" "${package}" ;;
+	"deinstall") run_command "${command}" "${package}" ;;
+	"package-install") run_command "${command}" "${package}" ;;
+	"install") run_command "${command}" "${package}" ;;
+	"bin-install") run_command "${command}" "${package}" ;;
+	"show-depends") run_command "${command}" "${package}" ;;
+	"show-options") run_command "${command}" "${package}" ;;
 
-	"clean-depends") run_command "${1}" "${2}" ;;
-	"clean") run_command "${1}" "${2}" ;;
-	"distclean") run_command "${1}" "${2}" ;;
-	"package-clean") run_command "${1}" "${2}" ;;
+	"clean-depends") run_command "${command}" "${package}" ;;
+	"clean") run_command "${command}" "${package}" ;;
+	"distclean") run_command "${command}" "${package}" ;;
+	"package-clean") run_command "${command}" "${package}" ;;
 
 	*)  echo Invalid command: ${1}
 	    help ;;
