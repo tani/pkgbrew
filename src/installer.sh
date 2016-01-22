@@ -30,7 +30,7 @@ main(){
     export SH="${prev}"
 
     echo Copying files...
-    mv "${workdir}/pkgsrc-trunk" "${PKGSRC}"
+    cp --recursive --force "${workdir}/pkgsrc-trunk" "${PKGSRC}"
     download "${PKGBREW}" "${PKGHOME}/bin/pkgbrew"
     chmod +x "${PKGHOME}/bin/pkgbrew"
 

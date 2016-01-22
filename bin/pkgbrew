@@ -8,7 +8,7 @@ set -e
 : ${PKGSRC:="${PKGHOME}/src"}
 version(){
     cat<<EOF
-pkgbrew revision : 74a9949
+pkgbrew revision : 0ff9859
 pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -110,7 +110,7 @@ tap_without_check(){
     
     echo Copying files...
 
-    mv --force "${workdir}/`basename "${1}"`-master" \
+    cp --recursive --force "${workdir}/`basename "${1}"`-master" \
        `convert_repository_name "${1}"`
 }
 
@@ -146,7 +146,7 @@ update(){
 
     echo Copying files...
 
-    mv --force "${workdir}/pkgsrc-trunk" "${PKGSRC}"
+    cp --recursive --force "${workdir}/pkgsrc-trunk" "${PKGSRC}"
 
     if [ -f "${PKGHOME}/etc/user-repositories" ]; then
 	cat "${PKGHOME}/etc/user-repositories" | while read $repo ;do

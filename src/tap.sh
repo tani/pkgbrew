@@ -26,7 +26,7 @@ tap_without_check(){
     
     echo Copying files...
 
-    mv --force "${workdir}/`basename "${1}"`-master" \
+    cp --recursive --force "${workdir}/`basename "${1}"`-master" \
        `convert_repository_name "${1}"`
 }
 
