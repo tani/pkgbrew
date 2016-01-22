@@ -8,7 +8,7 @@ set -e
 : ${PKGSRC:="${PKGHOME}/src"}
 version(){
     cat<<EOF
-pkgbrew revision : 24ed99b
+pkgbrew revision : 50a078d
 pkgsrc   version : stable
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -178,7 +178,25 @@ run_command(){
     fi
 
     cd "${package}"
-    ${PKGHOME}/bin/bmake "${command}"
+    ${PKGHOME}/bin/bmake "${command}" \
+	| awk "
+BEGIN {
+    flag=0
+}
+
+/^==========/ {
+    if(flag == 1) {
+	flag = 0;
+	print;
+    } else {
+	flag = 1;
+    }
+}
+
+/^=+>/ || flag == 1 {
+    print;
+}
+"
 }
 
 main(){
