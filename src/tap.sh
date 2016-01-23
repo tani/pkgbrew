@@ -17,7 +17,7 @@ tap(){
 tap_without_check(){
     download "https://github.com/${1}/archive/master.tar.gz" "-" \
 	| tar xz --directory "${PKGHOME}/var"
-    ln --symbolic --force "${PKGHOME}/`basename "${1}"`-master" \
+    ln --symbolic --force "${PKGHOME}/var/`basename "${1}"`-master" \
        `convert_repository_name "${1}"`
 }
 
