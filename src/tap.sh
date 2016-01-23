@@ -6,7 +6,7 @@ convert_repository_name(){
 }
 
 tap(){
-    if [ -d `convert_repository_name "${1}"` ]; then
+    if [ -e `convert_repository_name "${1}"` ]; then
 	echo repository already exits: ${1}
 	exit 1;
     fi
@@ -15,18 +15,9 @@ tap(){
 }
 
 tap_without_check(){
-    workdir=`mktemp -d`
-    
-    download "https://github.com/${1}/archive/master.zip" \
-	     "${workdir}/master.zip"
-    
-    echo Extracting files...
-
-    unzip "${workdir}/master.zip" -d "${workdir}" > /dev/null
-    
-    echo Copying files...
-
-    cp --recursive --force "${workdir}/`basename "${1}"`-master" \
+    download "https://github.com/${1}/archive/master.tar.gz" "-" \
+	| tar xz --directory "${PKGHOME}/var"
+    ln --symbolic --force "${PKGHOME}/`basename "${1}"`-master" \
        `convert_repository_name "${1}"`
 }
 
@@ -34,13 +25,13 @@ untap(){
     if [ -z `echo ${1} | tr -d -c '/'` ]; then
 	echo \'${1}\' is not user repository
 	exit 1;
-    elif [ ! -d `convert_repository_name "${1}"` ]; then
+    elif [ ! -e `convert_repository_name "${1}"` ]; then
 	echo repository already removed: ${1}
 	exit 1;
     fi
     
     echo Deleting files...
-    rm --recursive `convert_repository_name "${1}"`
+    rm `convert_repository_name "${1}"`
 
     cp "${PKGHOME}/etc/user-repositories" \
        "${PKGHOME}/etc/user-repositories.bak"
