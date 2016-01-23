@@ -6,7 +6,7 @@ convert_repository_name(){
 }
 
 tap(){
-    if [ -e `convert_repository_name "${1}"` ]; then
+    if [ -L `convert_repository_name "${1}"` ]; then
 	echo repository already exits: ${1}
 	exit 1;
     fi
@@ -25,7 +25,7 @@ untap(){
     if [ -z `echo ${1} | tr -d -c '/'` ]; then
 	echo \'${1}\' is not user repository
 	exit 1;
-    elif [ ! -e `convert_repository_name "${1}"` ]; then
+    elif [ ! -L `convert_repository_name "${1}"` ]; then
 	echo repository already removed: ${1}
 	exit 1;
     fi
