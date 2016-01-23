@@ -8,7 +8,7 @@ set -e
 : ${PKGSRC:="${PKGHOME}/src"}
 version(){
     cat<<EOF
-pkgbrew revision : aabd579
+pkgbrew revision : 449ab56
 pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -57,6 +57,13 @@ command:
     clean		: remove work directory
     distclean		: remove distribution file(s)
     package-clean	: remove binary package
+
+    Useful in development and thus may be useful for an advanced user
+
+    makesum		: fetch and generate checksum for distributed file(s)
+    makepatchsum	: (re)generate checksum for patches
+    makedistinfo	: (re)generate distinfo file (creating checksums for distributed file and patches)
+    print-PLIST		: attempt to generate correct packaging list (NB! It helps, but it doesn't eliminate manual work.)
 
 EOF
 }
@@ -167,10 +174,10 @@ run_command(){
     fi
 
     cd "${package}"
-    if [ "${command}" = "show-depends" -o "${command}" = "show-options" ]; then
-	${PKGHOME}/bin/bmake "${command}" 
-    else
-	${PKGHOME}/bin/bmake "${command}" | awk "
+
+    case "${command}" in
+	"show-depends"|"show-options"|"print-PLIST") ${PKGHOME}/bin/bmake "${command}" ;;
+	*) ${PKGHOME}/bin/bmake "${command}" | awk "
 BEGIN {
     flag=0
 }
@@ -188,7 +195,8 @@ BEGIN {
     print;
 }
 "
-    fi
+	   ;;
+    esac
 }
 
 main(){
@@ -230,6 +238,10 @@ main(){
 	"distclean") run_command "${command}" "${package}" ;;
 	"package-clean") run_command "${command}" "${package}" ;;
 
+	"makesum") run_command "${command}" "${package}" ;;
+	"makepatchsum") run_command "${command}" "${package}" ;;
+	"makedistinfo") run_command "${command}" "${package}" ;;
+	"print-PLIST") run_command "${command}" "${package}" ;;
 	*)  echo Invalid command: ${1}
 	    help ;;
     esac

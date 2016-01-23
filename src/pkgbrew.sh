@@ -22,13 +22,14 @@ run_command(){
     fi
 
     cd "${package}"
-    if [ "${command}" = "show-depends" -o "${command}" = "show-options" ]; then
-	${PKGHOME}/bin/bmake "${command}" 
-    else
-	${PKGHOME}/bin/bmake "${command}" | awk "
+
+    case "${command}" in
+	"show-depends"|"show-options"|"print-PLIST") ${PKGHOME}/bin/bmake "${command}" ;;
+	*) ${PKGHOME}/bin/bmake "${command}" | awk "
 #?include src/filter.awk
 "
-    fi
+	   ;;
+    esac
 }
 
 main(){
@@ -70,6 +71,10 @@ main(){
 	"distclean") run_command "${command}" "${package}" ;;
 	"package-clean") run_command "${command}" "${package}" ;;
 
+	"makesum") run_command "${command}" "${package}" ;;
+	"makepatchsum") run_command "${command}" "${package}" ;;
+	"makedistinfo") run_command "${command}" "${package}" ;;
+	"print-PLIST") run_command "${command}" "${package}" ;;
 	*)  echo Invalid command: ${1}
 	    help ;;
     esac
