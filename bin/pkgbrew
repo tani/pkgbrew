@@ -8,7 +8,7 @@ set -e
 : ${PKGSRC:="${PKGHOME}/src"}
 version(){
     cat<<EOF
-pkgbrew revision : a24fe18
+pkgbrew revision : 416a177
 pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -58,7 +58,7 @@ command:
     distclean		: remove distribution file(s)
     package-clean	: remove binary package
 
-    Package Dvelopment 
+    Package Development
 
     makesum		: fetch and generate checksum for distributed file(s)
     makepatchsum	: (re)generate checksum for patches

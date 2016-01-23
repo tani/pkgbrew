@@ -38,7 +38,7 @@ command:
     distclean		: remove distribution file(s)
     package-clean	: remove binary package
 
-    Package Dvelopment 
+    Package Development
 
     makesum		: fetch and generate checksum for distributed file(s)
     makepatchsum	: (re)generate checksum for patches
