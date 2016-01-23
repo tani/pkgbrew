@@ -4,7 +4,7 @@ all: $(TARGETS)
 
 $(TARGETS): %: src/%.sh
 	perl bin/compile.pl $^ \
-	| sed -e "s/__PKGBREW_REVISION__/`git rev-parse --short HEAD`/g" \
+	| sed -e "s/__PKGBREW_REVISION__/`git describe --long`/g" \
 	| sed -e "s/__PKGSRC_VERSION__/trunk/g" \
 	> bin/$@
 	chmod +x bin/$@
