@@ -3,7 +3,6 @@
 set -e
 
 #?include src/config.sh
-
 #?include src/download.sh
 
 main(){
@@ -15,29 +14,28 @@ main(){
 	
     workdir=`mktemp -d`
 
-    download "${PKGHOST}" "${workdir}/trunk.zip" 
-
-    echo Extracing files...
-
-    unzip "${workdir}/trunk.zip" -d "${workdir}" > /dev/null
+    download "${PKGHOST}" "-" | tar xz --directory "${workdir}"
 
     prev="${SH}"
     export SH="/bin/bash"
-    ${workdir}/pkgsrc-trunk/bootstrap/bootstrap \
-	--ignore-user-check               \
-	--workdir="${workdir}/work"       \
-	--prefix="${PKGHOME}"
+    ${workdir}/pkgsrc-trunk/bootstrap/bootstrap        \
+	--ignore-user-check                            \
+	--workdir="${workdir}/work"                    \
+	--make-jobs=`grep -c ^processor /proc/cpuinfo` \
+	--prefix="${PKGHOME}" | awk "
+#?include src/filter.awk
+"
     export SH="${prev}"
 
-    echo Copying files...
-    cp --recursive --force "${workdir}/pkgsrc-trunk" "${PKGSRC}"
+    mv "${workdir}/pkgsrc-trunk" "${PKGHOME}/var/pkgsrc-trunk"
+    ln --symbolic --force "${PKGHOME}/var/pkgsrc-trunk" "${PKGSRC}"
+
     download "${PKGBREW}" "${PKGHOME}/bin/pkgbrew"
     chmod +x "${PKGHOME}/bin/pkgbrew"
 
     cat<<EOF > "${PKGHOME}/etc/mk.conf"
 #?include src/mk.conf.tpl
 EOF
-
 }
 
 main

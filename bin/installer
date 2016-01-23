@@ -3,10 +3,9 @@
 set -e
 
 : ${PKGBREW:="https://raw.githubusercontent.com/ta2gch/pkgbrew/master/bin/pkgbrew"}
+: ${PKGHOST:="https://github.com/jsonn/pkgsrc/archive/trunk.tar.gz"}
 : ${PKGHOME:="${HOME}/.pkgbrew"}
-: ${PKGHOST:="https://github.com/jsonn/pkgsrc/archive/trunk.zip"}
 : ${PKGSRC:="${PKGHOME}/src"}
-
 download_1(){
     from="${1}"
     dist="${2}"
@@ -36,22 +35,37 @@ main(){
 	
     workdir=`mktemp -d`
 
-    download "${PKGHOST}" "${workdir}/trunk.zip" 
-
-    echo Extracing files...
-
-    unzip "${workdir}/trunk.zip" -d "${workdir}" > /dev/null
+    download "${PKGHOST}" "-" | tar xz --directory "${workdir}"
 
     prev="${SH}"
     export SH="/bin/bash"
-    ${workdir}/pkgsrc-trunk/bootstrap/bootstrap \
-	--ignore-user-check               \
-	--workdir="${workdir}/work"       \
-	--prefix="${PKGHOME}"
+    ${workdir}/pkgsrc-trunk/bootstrap/bootstrap        \
+	--ignore-user-check                            \
+	--workdir="${workdir}/work"                    \
+	--make-jobs=`grep -c ^processor /proc/cpuinfo` \
+	--prefix="${PKGHOME}" | awk "
+BEGIN {
+    flag=0
+}
+
+/^==========/ {
+    if(flag == 1) {
+	flag = 0;
+	print;
+    } else {
+	flag = 1;
+    }
+}
+
+/^=+>/ || flag == 1 {
+    print;
+}
+"
     export SH="${prev}"
 
-    echo Copying files...
-    cp --recursive --force "${workdir}/pkgsrc-trunk" "${PKGSRC}"
+    mv "${workdir}/pkgsrc-trunk" "${PKGHOME}/var/pkgsrc-trunk"
+    ln --symbolic --force "${PKGHOME}/var/pkgsrc-trunk" "${PKGSRC}"
+
     download "${PKGBREW}" "${PKGHOME}/bin/pkgbrew"
     chmod +x "${PKGHOME}/bin/pkgbrew"
 
@@ -68,6 +82,7 @@ VARBASE=		${PKGHOME}/var
 PKG_TOOLS_BIN=		${PKGHOME}/sbin
 PKGINFODIR=		info
 PKGMANDIR=		man
+MAKE_JOBS=              `grep -c ^processor /proc/cpuinfo`
 
 TOOLS_PLATFORM.awk?=	${PKGHOME}/bin/nawk
 TOOLS_PLATFORM.sh?=	/bin/bash
@@ -75,7 +90,6 @@ TOOLS_PLATFORM.sh?=	/bin/bash
 PKG_DEFAULT_OPTIONS=    -x11 -gtk2 -gkt3 -gnome -kde
 .endif			# end pkgsrc settings
 EOF
-
 }
 
 main

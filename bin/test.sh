@@ -5,8 +5,7 @@ set -ex
 export PKGHOME="${PWD}/test"
 export PKGBREW="${PWD}/bin/pkgbrew"
 
-./bin/installer > installer.log
-tail installer.log
+./bin/installer
 
 export PATH="${PKGHOME}/bin:${PATH}"
 

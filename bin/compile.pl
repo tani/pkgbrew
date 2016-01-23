@@ -10,7 +10,7 @@ sub compile{
     push(@hist,$_[0]);
     
     while(my $line = <$FILE>){
-	if($line =~ /^#\?include\s+(.+)$/){
+	if($line =~ /^#\?include\s+(.+)/){
 	    &compile($1) unless grep {$_ eq $1} @hist;
 	}else{
 	    print $line;
