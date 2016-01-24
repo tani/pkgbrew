@@ -27,8 +27,7 @@ main(){
 "
     export SH="${prev}"
 
-    mv "${workdir}/pkgsrc-trunk" "${PKGHOME}/var/pkgsrc-trunk"
-    ln --symbolic --force "${PKGHOME}/var/pkgsrc-trunk" "${PKGSRC}"
+    mv "${workdir}/pkgsrc-trunk" "${PKGSRC}"
 
     download "${PKGBREW}" "${PKGHOME}/bin/pkgbrew"
     chmod +x "${PKGHOME}/bin/pkgbrew"

@@ -5,8 +5,8 @@
 update(){
     workdir=`mktemp -d`
 
-    download "${PKGHOST}" "-" | tar xz --directory "${PKGHOME}/var"
-    ln --symbolic --force "${PKGHOME}/var/pkgsrc-trunk" "${PKGSRC}"
+    download "${PKGHOST}" "-" \
+	| tar xz --strip-components 1 --directory "${PKGSRC}"
 
     if [ -f "${PKGHOME}/etc/user-repositories" ]; then
 	cat "${PKGHOME}/etc/user-repositories" | while read $repo ;do
