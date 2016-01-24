@@ -18,7 +18,7 @@ tap_without_check(){
     download "https://github.com/${1}/archive/master.tar.gz" "-" \
 	| tar xz \
 	      --strip-components 1 \
-	      --directory "${PKGSRC}/`convert_repository_name "${1}"`" \
+	      --directory "${PKGSRC}/`convert_repository_name "${1}"`"
 }
 
 untap(){
