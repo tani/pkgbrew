@@ -6,10 +6,11 @@ convert_repository_name(){
 }
 
 tap(){
-    if [ -L `convert_repository_name "${1}"` ]; then
+    if [ -d `convert_repository_name "${1}"` ]; then
 	echo repository already exits: ${1}
 	exit 1;
     fi
+    mkdir `convert_repository_name "${1}"`
     tap_without_check "${1}"
     echo ${1} >> "${PKGHOME}/etc/user-repositories"
 }
@@ -25,14 +26,14 @@ untap(){
     if [ -z `echo ${1} | tr -d -c '/'` ]; then
 	echo \'${1}\' is not user repository
 	exit 1;
-    elif [ ! -L `convert_repository_name "${1}"` ]; then
+    elif [ ! -d `convert_repository_name "${1}"` ]; then
 	echo repository already removed: ${1}
 	exit 1;
     fi
     
     echo Deleting repository...
 
-    rm `convert_repository_name "${1}"`
+    rm --recursive `convert_repository_name "${1}"`
 
     echo Completed.
 
