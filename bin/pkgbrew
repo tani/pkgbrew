@@ -8,7 +8,7 @@ set -e
 : ${PKGSRC:="${PKGHOME}/src"}
 version(){
     cat<<EOF
-pkgbrew revision : 0.1-0-g6350e9d
+pkgbrew revision : 0.1-6-g226c152
 pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -98,32 +98,36 @@ convert_repository_name(){
 }
 
 tap(){
-    if [ -L `convert_repository_name "${1}"` ]; then
+    if [ -d `convert_repository_name "${1}"` ]; then
 	echo repository already exits: ${1}
 	exit 1;
     fi
+    mkdir `convert_repository_name "${1}"`
     tap_without_check "${1}"
     echo ${1} >> "${PKGHOME}/etc/user-repositories"
 }
 
 tap_without_check(){
     download "https://github.com/${1}/archive/master.tar.gz" "-" \
-	| tar xz --directory "${PKGHOME}/var"
-    ln --symbolic --force "${PKGHOME}/var/`basename "${1}"`-master" \
-       `convert_repository_name "${1}"`
+	| tar xz \
+	      --strip-components 1 \
+	      --directory `convert_repository_name "${1}"`
 }
 
 untap(){
     if [ -z `echo ${1} | tr -d -c '/'` ]; then
 	echo \'${1}\' is not user repository
 	exit 1;
-    elif [ ! -L `convert_repository_name "${1}"` ]; then
+    elif [ ! -d `convert_repository_name "${1}"` ]; then
 	echo repository already removed: ${1}
 	exit 1;
     fi
     
-    echo Deleting files...
-    rm `convert_repository_name "${1}"`
+    echo Deleting repository...
+
+    rm --recursive `convert_repository_name "${1}"`
+
+    echo Completed.
 
     cp "${PKGHOME}/etc/user-repositories" \
        "${PKGHOME}/etc/user-repositories.bak"
@@ -137,8 +141,8 @@ untap(){
 update(){
     workdir=`mktemp -d`
 
-    download "${PKGHOST}" "-" | tar xz --directory "${PKGHOME}/var"
-    ln --symbolic --force "${PKGHOME}/var/pkgsrc-trunk" "${PKGSRC}"
+    download "${PKGHOST}" "-" \
+	| tar xz --strip-components 1 --directory "${PKGSRC}"
 
     if [ -f "${PKGHOME}/etc/user-repositories" ]; then
 	cat "${PKGHOME}/etc/user-repositories" | while read $repo ;do
