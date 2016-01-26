@@ -1,6 +1,6 @@
 #! /bin/sh
 
-set -ex
+set -xe
 
 export PKGHOME="${PWD}/test"
 export PKGBREW="${PWD}/bin/pkgbrew"
@@ -16,10 +16,11 @@ pkgbrew deinstall misc/less
 pkgbrew clean-depends misc/less
 pkgbrew clean misc/less
 pkgbrew update
-pkgbrew tap ta2gch/pkgsrc-goodies
+pkgbrew tap ta2gch/collection
+pkgbrew install ta2gch/collection/sbcl-x64
 pkgbrew update
-pkgbrew untap ta2gch/pkgsrc-goodies
+pkgbrew untap ta2gch/collection
 pkgbrew test misc/less
 pkgbrew version
 
-rm -rf "${PKGHOME}" installer.log
+rm -rf "${PKGHOME}"

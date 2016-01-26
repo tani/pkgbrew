@@ -8,7 +8,7 @@ set -e
 : ${PKGSRC:="${PKGHOME}/src"}
 version(){
     cat<<EOF
-pkgbrew revision : 0.1-6-g226c152
+pkgbrew revision : 0.1-8-g784ca18
 pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -68,11 +68,14 @@ command:
 EOF
 }
 search(){
-    package="${1}"
-    find "${PKGSRC}/" -maxdepth 2 \
-	| grep "${package}"  \
-	| sed --expression="s%${PKGSRC}/%%" 
+    packagedir=`dirname "${1}" | tr '/' '#'`
+    packagename=`basename "${1}"`
+    find "${PKGSRC}" -maxdepth 2 -mindepth 2 -type d \
+	| grep "${packagedir}/${packagename}" \
+	| sed --expression="s@${PKGSRC}/@@" \
+	| tr '#' '/'
 }
+
 download_1(){
     from="${1}"
     dist="${2}"
@@ -94,7 +97,7 @@ download(){
 }
 
 convert_repository_name(){
-    echo "${PKGSRC}/`echo ${1} | sed -e 's%/%-%g'`"
+    echo "${PKGSRC}/`echo ${1} | sed -e 's%/%#%g'`"
 }
 
 tap(){
@@ -132,9 +135,9 @@ untap(){
     cp "${PKGHOME}/etc/user-repositories" \
        "${PKGHOME}/etc/user-repositories.bak"
 
-    cat "${PKGHOME}/etc/user-repositories.bak" \
-	| sed -e "s%${1}%#%g"                  \
-	| sed -e "/#/d"                        \
+    cat "${PKGHOME}/etc/user-repositories.bak"  \
+	| sed -e "s%${1}%##%g"                  \
+	| sed -e "/##/d"                        \
 	> "${PKGHOME}/etc/user-repositories"
 }
 
@@ -168,19 +171,22 @@ description(){
 
 run_command(){
     command="${1}"
-    package="${PKGSRC}/${2}"
+    genre=`dirname "${2}" | tr '/' '#'`
+    packagename=`basename "${2}"`
+    packagedir="${PKGSRC}/${genre}/${packagename}"
 
-    if [ ! -n "${2}" -o ! -d "${package}" ]; then
+    if [ ! -n "${2}" -o ! -d "${packagedir}" ]; then
 	echo No package \'${2}\' found, did you mead:
 	search "${2}" | sed --expression="s/^/ /"
 	echo pkgbrew: package not found
 	exit 1;
     fi
 
-    cd "${package}"
+    cd "${packagedir}"
 
     case "${command}" in
-	"show-depends"|"show-options"|"print-PLIST") ${PKGHOME}/bin/bmake "${command}" ;;
+	"show-depends"|"show-options"|"print-PLIST")
+	    ${PKGHOME}/bin/bmake "${command}" ;;
 	*) ${PKGHOME}/bin/bmake "${command}" | awk "
 BEGIN {
     flag=0
@@ -198,8 +204,7 @@ BEGIN {
 /^=+>/ || flag == 1 {
     print;
 }
-"
-	   ;;
+" ;;
     esac
 }
 
