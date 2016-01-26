@@ -5,12 +5,15 @@
 update(){
     workdir=`mktemp -d`
 
+    rm -rf "${PKGSRC}"
+    
     download "${PKGHOST}" "-" \
 	| tar xz --strip-components 1 --directory "${PKGSRC}"
-
+    
     if [ -f "${PKGHOME}/etc/user-repositories" ]; then
 	cat "${PKGHOME}/etc/user-repositories" | while read $repo ;do
-	    tap_without_check "$repo"
+	    untap "${repo}"
+	    tap "${repo}"
 	done
     fi
 
