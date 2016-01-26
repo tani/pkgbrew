@@ -5,8 +5,6 @@
 update(){
     workdir=`mktemp -d`
 
-    rm -rf "${PKGSRC}"
-    
     download "${PKGHOST}" "-" \
 	| tar xz --strip-components 1 --directory "${PKGSRC}"
     
