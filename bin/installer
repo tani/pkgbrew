@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -xe
 
 : ${PKGBREW:="https://raw.githubusercontent.com/ta2gch/pkgbrew/master/bin/pkgbrew"}
 : ${PKGHOST:="https://github.com/jsonn/pkgsrc/archive/trunk.tar.gz"}
