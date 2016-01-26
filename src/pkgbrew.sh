@@ -12,23 +12,25 @@ set -e
 
 run_command(){
     command="${1}"
-    package="${PKGSRC}/${2}"
+    genre=`dirname "${2}" | tr '/' '#'`
+    packagename=`basename "${2}"`
+    packagedir="${PKGSRC}/${genre}/${packagename}"
 
-    if [ ! -n "${2}" -o ! -d "${package}" ]; then
+    if [ ! -n "${2}" -o ! -d "${packagedir}" ]; then
 	echo No package \'${2}\' found, did you mead:
 	search "${2}" | sed --expression="s/^/ /"
 	echo pkgbrew: package not found
 	exit 1;
     fi
 
-    cd "${package}"
+    cd "${packagedir}"
 
     case "${command}" in
-	"show-depends"|"show-options"|"print-PLIST") ${PKGHOME}/bin/bmake "${command}" ;;
+	"show-depends"|"show-options"|"print-PLIST")
+	    ${PKGHOME}/bin/bmake "${command}" ;;
 	*) ${PKGHOME}/bin/bmake "${command}" | awk "
 #?include src/filter.awk
-"
-	   ;;
+" ;;
     esac
 }
 

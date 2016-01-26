@@ -2,7 +2,7 @@
 #?include src/download.sh
 
 convert_repository_name(){
-    echo "${PKGSRC}/`echo ${1} | sed -e 's%/%-%g'`"
+    echo "${PKGSRC}/`echo ${1} | sed -e 's%/%#%g'`"
 }
 
 tap(){
@@ -40,8 +40,8 @@ untap(){
     cp "${PKGHOME}/etc/user-repositories" \
        "${PKGHOME}/etc/user-repositories.bak"
 
-    cat "${PKGHOME}/etc/user-repositories.bak" \
-	| sed -e "s%${1}%#%g"                  \
-	| sed -e "/#/d"                        \
+    cat "${PKGHOME}/etc/user-repositories.bak"  \
+	| sed -e "s%${1}%##%g"                  \
+	| sed -e "/##/d"                        \
 	> "${PKGHOME}/etc/user-repositories"
 }

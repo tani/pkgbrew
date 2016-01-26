@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -xe
 
 #?include src/config.sh
 #?include src/download.sh
