@@ -18,7 +18,7 @@ tap(){
     download "https://github.com/${1}/archive/master.tar.gz" "-" \
 	| tar xz \
 	      --strip-components 1 \
-	      --directory `convert_repository_name "${1}"`
+	      -C `convert_repository_name "${1}"`
 }
 
 untap(){
@@ -32,7 +32,7 @@ untap(){
     
     echo Deleting repository...
 
-    rm --recursive `convert_repository_name "${1}"`
+    rm -r `convert_repository_name "${1}"`
 
     echo Completed.
 
