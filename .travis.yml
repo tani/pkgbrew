@@ -1,5 +1,3 @@
-language: bash
-before_install:
-  - sudo apt-get install wget build-essential
+language: objective-c
 script:
   - make test
