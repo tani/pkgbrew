@@ -6,6 +6,7 @@ set -e
 : ${PKGHOST:="https://github.com/jsonn/pkgsrc/archive/trunk.tar.gz"}
 : ${PKGHOME:="${HOME}/.pkgbrew"}
 : ${PKGSRC:="${PKGHOME}/src"}
+: ${MAKE_JOBS:=1}
 download_1(){
     from="${1}"
     dist="${2}"
@@ -37,16 +38,16 @@ main(){
 	exit 1
     fi
 	
-    workdir=`mktemp -d`
+    workdir=`mktemp -d /tmp/pkgbrew.XXXXXX`
 
-    download "${PKGHOST}" "-" | tar xz --directory "${workdir}"
+    download "${PKGHOST}" "-" | tar xz -C "${workdir}"
 
     prev="${SH}"
     export SH="/bin/bash"
     ${workdir}/pkgsrc-trunk/bootstrap/bootstrap        \
 	--ignore-user-check                            \
 	--workdir="${workdir}/work"                    \
-	--make-jobs=`grep -c ^processor /proc/cpuinfo` \
+	--make-jobs="${MAKE_JOBS}"                     \
 	--prefix="${PKGHOME}" | awk "
 BEGIN {
     flag=0
@@ -85,7 +86,7 @@ VARBASE=		${PKGHOME}/var
 PKG_TOOLS_BIN=		${PKGHOME}/sbin
 PKGINFODIR=		info
 PKGMANDIR=		man
-MAKE_JOBS=              `grep -c ^processor /proc/cpuinfo`
+MAKE_JOBS=              ${MAKE_JOBS}
 
 TOOLS_PLATFORM.awk?=	${PKGHOME}/bin/nawk
 TOOLS_PLATFORM.sh?=	/bin/bash
