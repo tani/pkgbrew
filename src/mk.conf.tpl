@@ -11,7 +11,7 @@ VARBASE=		${PKGHOME}/var
 PKG_TOOLS_BIN=		${PKGHOME}/sbin
 PKGINFODIR=		info
 PKGMANDIR=		man
-MAKE_JOBS=              `grep -c ^processor /proc/cpuinfo`
+# MAKE_JOBS=              `grep -c ^processor /proc/cpuinfo`
 
 TOOLS_PLATFORM.awk?=	${PKGHOME}/bin/nawk
 TOOLS_PLATFORM.sh?=	/bin/bash
