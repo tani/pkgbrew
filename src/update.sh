@@ -3,13 +3,11 @@
 #?include src/tap.sh
 
 update(){
-    workdir=`mktemp -d -t tmp`
-
     download "${PKGHOST}" "-" \
 	| tar xz --strip-components 1 --directory "${PKGSRC}"
     
     if [ -f "${PKGHOME}/etc/user-repositories" ]; then
-	cat "${PKGHOME}/etc/user-repositories" | while read $repo ;do
+	cat "${PKGHOME}/etc/user-repositories" | while read repo ;do
 	    untap "${repo}"
 	    tap "${repo}"
 	done
