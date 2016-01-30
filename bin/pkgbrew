@@ -6,9 +6,10 @@ set -e
 : ${PKGHOST:="https://github.com/jsonn/pkgsrc/archive/trunk.tar.gz"}
 : ${PKGHOME:="${HOME}/.pkgbrew"}
 : ${PKGSRC:="${PKGHOME}/src"}
+: ${MAKE_JOBS:=1}
 version(){
     cat<<EOF
-pkgbrew revision : 0.1-14-g9a9e39c
+pkgbrew revision : 0.1-22-g81bb526
 pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -72,7 +73,7 @@ search(){
     packagename=`basename "${1}"`
     find "${PKGSRC}" -maxdepth 2 -mindepth 2 -type d \
 	| grep "${packagedir}/${packagename}" \
-	| sed --expression="s@${PKGSRC}/@@" \
+	| sed -e "s@${PKGSRC}/@@" \
 	| tr '#' '/'
 }
 
@@ -112,12 +113,12 @@ tap(){
     
     mkdir `convert_repository_name "${1}"`
 
-    echo ${1} >> "${PKGHOME}/etc/user-repositories"
+    echo "${1}" >> "${PKGHOME}/etc/user-repositories"
 
     download "https://github.com/${1}/archive/master.tar.gz" "-" \
 	| tar xz \
 	      --strip-components 1 \
-	      --directory `convert_repository_name "${1}"`
+	      -C `convert_repository_name "${1}"`
 }
 
 untap(){
@@ -131,7 +132,7 @@ untap(){
     
     echo Deleting repository...
 
-    rm --recursive `convert_repository_name "${1}"`
+    rm -r `convert_repository_name "${1}"`
 
     echo Completed.
 
@@ -145,13 +146,11 @@ untap(){
 }
 
 update(){
-    workdir=`mktemp -d`
-
     download "${PKGHOST}" "-" \
-	| tar xz --strip-components 1 --directory "${PKGSRC}"
+	| tar xz --strip-components 1 -C "${PKGSRC}"
     
     if [ -f "${PKGHOME}/etc/user-repositories" ]; then
-	cat "${PKGHOME}/etc/user-repositories" | while read $repo ;do
+	cat "${PKGHOME}/etc/user-repositories" | while read repo ;do
 	    untap "${repo}"
 	    tap "${repo}"
 	done
@@ -165,7 +164,7 @@ description(){
     package="${PKGSRC}/${1}"
     if [ ! -n "${1}" -o ! -d "${package}" ]; then
 	echo No package \'${2}\' found, did you mead:
-	search "${1}" | sed --expression="s/^/ /"
+	search "${1}" | sed -e "s/^/ /"
 	echo pkgbrew: package not found
 	exit 1;
     fi
@@ -181,7 +180,7 @@ run_command(){
 
     if [ ! -n "${2}" -o ! -d "${packagedir}" ]; then
 	echo No package \'${2}\' found, did you mead:
-	search "${2}" | sed --expression="s/^/ /"
+	search "${2}" | sed -e "s/^/ /"
 	echo pkgbrew: package not found
 	exit 1;
     fi

@@ -1,29 +1,35 @@
 # pkgbrew
 [![Build Status](https://travis-ci.org/ta2gch/pkgbrew.svg?branch=master)](https://travis-ci.org/ta2gch/pkgbrew)
 
-cmmand line interface for pkgsrc
+non-root package manager
 
 ## Usage
 
-### Install package
+### Install a package
 
 ```
-$ pkgbrew install editors/emacs
+$ pkgbrew install editors/emacs-nox11
 ```
 
-### Uninstall package
+### Uninstall a package
 
 ```
-$ pkgbrew deinstall editors/emacs
+$ pkgbrew deinstall editors/emacs-nox11
 ```
 
-### Update package
+### Upgrade a package
 
 ```
-$ pkgbrew replace editors/emacs
+$ pkgbrew replace editors/emacs-nox11
 ```
 
-### Search package
+### Show build parameters
+
+```
+$ pkgbrew show-options editors/emacs24
+```
+
+### Search a package
 
 ```
 $ pkgbrew search emacs
@@ -53,17 +59,31 @@ $ pkgbrew help
 
 ```
 $ wget -O- https://git.io/pkgbrew | /bin/sh
-
 $ echo 'export PATH=$HOME/.pkgbrew/bin:$PATH' >> ~/.bashrc
 $ echo 'export MANPATH=$HOME/.pkgbrew/man:$MANPATH' >> ~/.bashrc
 ```
 
-## Dependencies
+## Supported platforms
+
+- NetBSD
+- Solaris
+- Linux (test environment)
+- Darwin(Mac OS X) (Travis CI)
+- FreeBSD
+
+(see also pkgsrc.org)
+
+## Software requirements
+
+- wget or curl
+- gcc (and libstdc++)
+- libncurses-devel
+- zlib and zlib-devel
 
 ### Debian/Ubuntu
 
 ```
-$ sudo apt-get install build-essential wget # or curl
+$ sudo apt-get install build-essential
 ```
 
 ## Author
