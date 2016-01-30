@@ -14,7 +14,7 @@ main(){
 	
     workdir=`mktemp -d /tmp/pkgbrew.XXXXXX`
 
-    download "${PKGHOST}" "-" | tar xz --directory "${workdir}"
+    download "${PKGHOST}" "-" | tar xz -C "${workdir}"
 
     prev="${SH}"
     export SH="/bin/bash"

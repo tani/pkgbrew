@@ -18,7 +18,7 @@ run_command(){
 
     if [ ! -n "${2}" -o ! -d "${packagedir}" ]; then
 	echo No package \'${2}\' found, did you mead:
-	search "${2}" | sed --expression="s/^/ /"
+	search "${2}" | sed -e "s/^/ /"
 	echo pkgbrew: package not found
 	exit 1;
     fi
