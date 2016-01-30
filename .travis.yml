@@ -1,3 +1,5 @@
 language: objective-c
+env:
+  - MAKE_JOBS=4
 script:
   - make test

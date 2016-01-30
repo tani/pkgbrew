@@ -12,7 +12,7 @@ main(){
 	exit 1
     fi
 	
-    workdir=`mktemp -d -t tmp`
+    workdir=`mktemp -d /tmp/pkgbrew.XXXXXX`
 
     download "${PKGHOST}" "-" | tar xz --directory "${workdir}"
 
@@ -21,6 +21,7 @@ main(){
     ${workdir}/pkgsrc-trunk/bootstrap/bootstrap        \
 	--ignore-user-check                            \
 	--workdir="${workdir}/work"                    \
+	--make-jobs="${MAKE_JOBS}"                     \
 	--prefix="${PKGHOME}" | awk "
 #?include src/filter.awk
 "

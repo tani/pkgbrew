@@ -13,7 +13,7 @@ tap(){
     
     mkdir `convert_repository_name "${1}"`
 
-    echo ${1} >> "${PKGHOME}/etc/user-repositories"
+    echo "${1}" >> "${PKGHOME}/etc/user-repositories"
 
     download "https://github.com/${1}/archive/master.tar.gz" "-" \
 	| tar xz \
