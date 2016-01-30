@@ -3,7 +3,7 @@
 #?include src/tap.sh
 
 update(){
-    workdir=`mktemp -d`
+    workdir=`mktemp -d -t tmp`
 
     download "${PKGHOST}" "-" \
 	| tar xz --strip-components 1 --directory "${PKGSRC}"
