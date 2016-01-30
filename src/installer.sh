@@ -21,7 +21,6 @@ main(){
     ${workdir}/pkgsrc-trunk/bootstrap/bootstrap        \
 	--ignore-user-check                            \
 	--workdir="${workdir}/work"                    \
-	--make-jobs=`grep -c ^processor /proc/cpuinfo` \
 	--prefix="${PKGHOME}" | awk "
 #?include src/filter.awk
 "
