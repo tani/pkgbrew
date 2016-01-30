@@ -17,7 +17,6 @@ pkgbrew clean-depends misc/less
 pkgbrew clean misc/less
 pkgbrew update
 pkgbrew tap ta2gch/collection
-pkgbrew install ta2gch/collection/sbcl-x64-linux
 pkgbrew update
 pkgbrew untap ta2gch/collection
 pkgbrew test misc/less
