@@ -12,7 +12,7 @@ main(){
 	exit 1
     fi
 	
-    workdir=`mktemp -d`
+    workdir=`mktemp -d -t tmp`
 
     download "${PKGHOST}" "-" | tar xz --directory "${workdir}"
 
