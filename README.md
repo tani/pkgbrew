@@ -58,6 +58,7 @@ $ pkgbrew help
 ## Installation
 
 ```
+$ export MAKE_JOBS=4 # Optional
 $ wget -O- https://git.io/pkgbrew | /bin/sh
 $ echo 'export PATH=$HOME/.pkgbrew/bin:$PATH' >> ~/.bashrc
 $ echo 'export MANPATH=$HOME/.pkgbrew/man:$MANPATH' >> ~/.bashrc
