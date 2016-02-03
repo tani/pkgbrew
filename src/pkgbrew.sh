@@ -12,7 +12,7 @@ set -e
 
 run_command(){
     command="${1}"
-    genre=`dirname "${2}" | tr '/' '#'`
+    genre=`dirname "${2}" | tr '/' '_'`
     packagename=`basename "${2}"`
     packagedir="${PKGSRC}/${genre}/${packagename}"
 

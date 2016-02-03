@@ -5,6 +5,6 @@ search(){
     find "${PKGSRC}" -maxdepth 2 -mindepth 2 -type d \
 	| grep "${packagedir}/${packagename}" \
 	| sed -e "s@${PKGSRC}/@@" \
-	| tr '#' '/'
+	| tr '_' '/'
 }
 
