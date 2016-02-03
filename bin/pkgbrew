@@ -9,7 +9,7 @@ set -e
 : ${MAKE_JOBS:=1}
 version(){
     cat<<EOF
-pkgbrew revision : 0.1-22-g81bb526
+pkgbrew revision : 0.2-1-gd466145
 pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -69,7 +69,7 @@ command:
 EOF
 }
 search(){
-    packagedir=`dirname "${1}" | tr '/' '#'`
+    packagedir=`dirname "${1}" | tr '/' '_'`
     packagename=`basename "${1}"`
     find "${PKGSRC}" -maxdepth 2 -mindepth 2 -type d \
 	| grep "${packagedir}/${packagename}" \
@@ -102,7 +102,7 @@ download(){
 }
 
 convert_repository_name(){
-    echo "${PKGSRC}/`echo ${1} | sed -e 's%/%#%g'`"
+    echo "${PKGSRC}/`echo ${1} | sed -e 's%/%_%g'`"
 }
 
 tap(){
