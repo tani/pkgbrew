@@ -2,7 +2,7 @@
 #?include src/download.sh
 
 convert_repository_name(){
-    echo "${PKGSRC}/`echo ${1} | sed -e 's%/%#%g'`"
+    echo "${PKGSRC}/`echo ${1} | sed -e 's%/%_%g'`"
 }
 
 tap(){
