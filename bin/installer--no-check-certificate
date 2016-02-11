@@ -7,6 +7,7 @@ set -e
 : ${PKGHOME:="${HOME}/.pkgbrew"}
 : ${PKGSRC:="${PKGHOME}/src"}
 : ${MAKE_JOBS:=1}
+: ${CC:=gcc}
 download_1(){
     from="${1}"
     dist="${2}"
@@ -45,7 +46,7 @@ main(){
     prev="${SH}"
     export SH="/bin/bash"
     ${workdir}/pkgsrc-trunk/bootstrap/bootstrap        \
-    	--compiler=clang                               \
+    	--compiler=${CC}                               \
 	--ignore-user-check                            \
 	--workdir="${workdir}/work"                    \
 	--make-jobs="${MAKE_JOBS}"                     \
@@ -88,6 +89,7 @@ PKG_TOOLS_BIN=		${PKGHOME}/sbin
 PKGINFODIR=		info
 PKGMANDIR=		man
 MAKE_JOBS=              ${MAKE_JOBS}
+PKGSRC_COMPILER=	${CC}
 
 TOOLS_PLATFORM.awk?=	${PKGHOME}/bin/nawk
 TOOLS_PLATFORM.sh?=	/bin/bash
