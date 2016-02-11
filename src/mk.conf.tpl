@@ -12,6 +12,7 @@ PKG_TOOLS_BIN=		${PKGHOME}/sbin
 PKGINFODIR=		info
 PKGMANDIR=		man
 MAKE_JOBS=              ${MAKE_JOBS}
+PKGSRC_COMPILER=	${CC}
 
 TOOLS_PLATFORM.awk?=	${PKGHOME}/bin/nawk
 TOOLS_PLATFORM.sh?=	/bin/bash
