@@ -87,6 +87,10 @@ $ echo 'export MANPATH=$HOME/.pkgbrew/man:$MANPATH' >> ~/.bashrc
 $ sudo apt-get install build-essential
 ```
 
+### Mac OSX
+
+Set the CC variable in the environment before the script the starts. (`export CC=clang`)
+
 ## Author
 
 TANIGUCHI Masaya

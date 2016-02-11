@@ -7,9 +7,10 @@ set -e
 : ${PKGHOME:="${HOME}/.pkgbrew"}
 : ${PKGSRC:="${PKGHOME}/src"}
 : ${MAKE_JOBS:=1}
+: ${CC:=gcc}
 version(){
     cat<<EOF
-pkgbrew revision : 0.2-3-g175c939
+pkgbrew revision : 0.2-13-g5f87cf8
 pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -81,7 +82,7 @@ download_1(){
     from="${1}"
     dist="${2}"
     if which wget > /dev/null ; then
-	wget -O --no-check-certificate "${dist}" "${from}"
+	wget --no-check-certificate -O "${dist}" "${from}"
     elif which curl > /dev/null ; then
 	if [ "${dist}" = "-" ] ; then
 	    curl -L -O "${from}"

@@ -7,9 +7,10 @@ set -e
 : ${PKGHOME:="${HOME}/.pkgbrew"}
 : ${PKGSRC:="${PKGHOME}/src"}
 : ${MAKE_JOBS:=1}
+: ${CC:=gcc}
 version(){
     cat<<EOF
-pkgbrew revision : 0.2-3-g175c939
+pkgbrew revision : 0.2-13-g5f87cf8
 pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 
