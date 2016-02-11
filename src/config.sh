@@ -3,3 +3,4 @@
 : ${PKGHOME:="${HOME}/.pkgbrew"}
 : ${PKGSRC:="${PKGHOME}/src"}
 : ${MAKE_JOBS:=1}
+: ${CC:=gcc}
