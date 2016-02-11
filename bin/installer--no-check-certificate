@@ -1,0 +1,99 @@
+#!/bin/sh
+
+set -e
+
+: ${PKGBREW:="https://raw.githubusercontent.com/ta2gch/pkgbrew/master/bin/pkgbrew--no-check-certificate"}
+: ${PKGHOST:="https://github.com/jsonn/pkgsrc/archive/trunk.tar.gz"}
+: ${PKGHOME:="${HOME}/.pkgbrew"}
+: ${PKGSRC:="${PKGHOME}/src"}
+: ${MAKE_JOBS:=1}
+download_1(){
+    from="${1}"
+    dist="${2}"
+    if which wget > /dev/null ; then
+	wget -O --no-check-certificate "${dist}" "${from}"
+    elif which curl > /dev/null ; then
+	if [ "${dist}" = "-" ] ; then
+	    curl -L -O "${from}"
+	else
+	    curl -L -o "${dist}" -O "${from}"
+	fi
+    fi
+}
+
+download(){
+    from="${1}"
+    dist="${2}"
+    case "${from}" in
+	https://*) download_1 "${from}" "${dist}" ;;
+	http://*) download_1 "${from}" "${dist}" ;;
+	*) cp "${from}" "${dist}" ;;
+    esac
+}
+
+main(){
+    
+    if [ -d "${PKGHOME}" ]; then
+	echo pkgbrew already installed
+	exit 1
+    fi
+	
+    workdir=`mktemp -d /tmp/pkgbrew.XXXXXX`
+
+    download "${PKGHOST}" "-" | tar xz -C "${workdir}"
+
+    prev="${SH}"
+    export SH="/bin/bash"
+    ${workdir}/pkgsrc-trunk/bootstrap/bootstrap        \
+	--ignore-user-check                            \
+	--workdir="${workdir}/work"                    \
+	--make-jobs="${MAKE_JOBS}"                     \
+	--prefix="${PKGHOME}" | awk "
+BEGIN {
+    flag=0
+}
+
+/^==========/ {
+    if(flag == 1) {
+	flag = 0;
+	print;
+    } else {
+	flag = 1;
+    }
+}
+
+/^=+>/ || flag == 1 {
+    print;
+}
+"
+    export SH="${prev}"
+
+    mv "${workdir}/pkgsrc-trunk" "${PKGSRC}"
+
+    download "${PKGBREW}" "${PKGHOME}/bin/pkgbrew"
+    chmod +x "${PKGHOME}/bin/pkgbrew"
+
+    cat<<EOF > "${PKGHOME}/etc/mk.conf"
+# Example ${PKGHOME}/etc/mk.conf file produced by pkgbrew
+# `date`
+
+.ifdef BSD_PKG_MK	# begin pkgsrc settings
+
+UNPRIVILEGED=		yes
+PKG_DBDIR=		${PKGHOME}/var/db/pkg
+LOCALBASE=		${PKGHOME}
+VARBASE=		${PKGHOME}/var
+PKG_TOOLS_BIN=		${PKGHOME}/sbin
+PKGINFODIR=		info
+PKGMANDIR=		man
+MAKE_JOBS=              ${MAKE_JOBS}
+
+TOOLS_PLATFORM.awk?=	${PKGHOME}/bin/nawk
+TOOLS_PLATFORM.sh?=	/bin/bash
+
+PKG_DEFAULT_OPTIONS=    -x11 -gtk2 -gkt3 -gnome -kde
+.endif			# end pkgsrc settings
+EOF
+}
+
+main
