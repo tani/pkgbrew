@@ -19,6 +19,7 @@ main(){
     prev="${SH}"
     export SH="/bin/bash"
     ${workdir}/pkgsrc-trunk/bootstrap/bootstrap        \
+    	--compiler=${CC}                               \
 	--ignore-user-check                            \
 	--workdir="${workdir}/work"                    \
 	--make-jobs="${MAKE_JOBS}"                     \
