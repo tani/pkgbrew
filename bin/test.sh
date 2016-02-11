@@ -6,7 +6,7 @@ export PKGHOME="${PWD}/test"
 export PKGBREW="${PWD}/bin/pkgbrew"
 export PATH="${PKGHOME}/bin:${PATH}"
 
-./bin/installer
+./bin/installer--no-check-certificate--with-clang
 
 TARGET="benchmarks/fib"
 
