@@ -10,7 +10,7 @@ set -e
 : ${CC:=gcc}
 version(){
     cat<<EOF
-pkgbrew revision : 0.2-13-g5f87cf8
+pkgbrew revision : 0.2-16-g9d98a2d
 pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -85,7 +85,7 @@ download_1(){
 	wget -O "${dist}" "${from}"
     elif which curl > /dev/null ; then
 	if [ "${dist}" = "-" ] ; then
-	    curl -L -O "${from}"
+	    curl -L "${from}"
 	else
 	    curl -L -o "${dist}" -O "${from}"
 	fi
