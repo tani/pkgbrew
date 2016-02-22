@@ -5,7 +5,7 @@ download_1(){
 	wget -O "${dist}" "${from}"
     elif which curl > /dev/null ; then
 	if [ "${dist}" = "-" ] ; then
-	    curl -L -O "${from}"
+	    curl -L "${from}"
 	else
 	    curl -L -o "${dist}" -O "${from}"
 	fi
