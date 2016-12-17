@@ -1,23 +1,23 @@
 download_1(){
     from="${1}"
-    dist="${2}"
+    dest="${2}"
     if which wget > /dev/null ; then
-	wget -O "${dist}" "${from}"
+	wget -O "${dest}" "${from}"
     elif which curl > /dev/null ; then
-	if [ "${dist}" = "-" ] ; then
+	if [ "${dest}" = "-" ] ; then
 	    curl -L "${from}"
 	else
-	    curl -L -o "${dist}" -O "${from}"
+	    curl -L -o "${dest}" -O "${from}"
 	fi
     fi
 }
 
 download(){
     from="${1}"
-    dist="${2}"
+    dest="${2}"
     case "${from}" in
-	https://*) download_1 "${from}" "${dist}" ;;
-	http://*) download_1 "${from}" "${dist}" ;;
-	*) cp "${from}" "${dist}" ;;
+	https://*) download_1 "${from}" "${dest}" ;;
+	http://*) download_1 "${from}" "${dest}" ;;
+	*) cp "${from}" "${dest}" ;;
     esac
 }
