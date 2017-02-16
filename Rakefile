@@ -21,7 +21,7 @@ task :commit => :format do
 	sh "git commit -a"
 end
 
-task :test do
+task :test => "trunk.tar.gz" do
 	sh "go test"
 end
 
@@ -29,9 +29,10 @@ namespace :docker do
 	task :build do
 		sh "docker build -t pkgbrew ."
 	end
-	task :test => [:build, "trunk.tar.gz"] do
+	task :run => [:build, "trunk.tar.gz"] do
 		sh "docker run --rm pkgbrew"
 	end
+	task :test => :run
 end
 
 task :default => "pkgbrew"
