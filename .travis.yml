@@ -1,7 +1,7 @@
-language: objective-c
+language: go
 env:
   global:
     - MAKE_JOBS=4
-    - CC=clang
+    - CC=gcc
 script:
-  - make test
+  - go test

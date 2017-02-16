@@ -8,61 +8,54 @@ non-root package manager
 ### Install a package
 
 ```
-$ pkgbrew install editors/emacs-nox11
+$ pkgbrew -i editors/emacs-nox11
 ```
 
 ### Uninstall a package
 
 ```
-$ pkgbrew deinstall editors/emacs-nox11
+$ pkgbrew -d editors/emacs-nox11
 ```
 
 ### Upgrade a package
 
 ```
-$ pkgbrew replace editors/emacs-nox11
+$ pkgbrew -r editors/emacs-nox11
 ```
 
 ### Show build parameters
 
 ```
-$ pkgbrew show-options editors/emacs24
+$ pkgbrew -O editors/emacs24
+```
+
+
+### Show build dependencies
+
+```
+$ pkgbrew -D editors/emacs24
 ```
 
 ### Search a package
 
 ```
-$ pkgbrew search emacs
-```
-
-### Manage user repository (tap/untap)
-
-```
-$ pkgbrew tap <username>/<repository> # Github
-$ pkgbrew untap <username>/<repository>
-$ pkgbrew update # for all repository
-```
-
-For example,
-
-```
-$ pkgbrew tap NetBSD/pkgsrc-wip
+$ pkgbrew -s editors/emacs
 ```
 
 ### Show Usage
 
 ```
-$ pkgbrew help
+$ pkgbrew -h
 ```
 
 ## Installation
 
 ```
-$ export MAKE_JOBS=4 # Optional
-$ wget -O- https://git.io/pkgbrew | /bin/sh
-$ echo 'export PATH=$HOME/.pkgbrew/bin:$PATH' >> ~/.bashrc
-$ echo 'export MANPATH=$HOME/.pkgbrew/man:$MANPATH' >> ~/.bashrc
+$ go get github.com/ta2gch/pkgbrew
+$ MAKE_JOBS=4 CC=gcc pkgbrew --init
 ```
+
+binary version is comming soon.
 
 ## Supported platforms
 
@@ -76,7 +69,6 @@ $ echo 'export MANPATH=$HOME/.pkgbrew/man:$MANPATH' >> ~/.bashrc
 
 ## Software requirements
 
-- wget or curl
 - gcc (and libstdc++)
 - libncurses-devel
 - zlib and zlib-devel
@@ -97,9 +89,8 @@ TANIGUCHI Masaya
 
 ## Copyright
 
-Copyright(c) 2016 TANIGUCHI Masaya (ta2gch@gmail.com)
+Copyright(c) 2016,2017 TANIGUCHI Masaya (ta2gch@gmail.com)
 
 ## License
 
 BSD License (2 clause)
-
