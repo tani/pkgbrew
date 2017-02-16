@@ -3,5 +3,8 @@ env:
   global:
     - MAKE_JOBS=4
     - CC=gcc
+install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y rake
 script:
-  - go test
+  - rake test
