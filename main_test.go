@@ -58,3 +58,21 @@ func TestDeinstall(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestShowVersion(t *testing.T) {
+	if err := version(); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestSearch(t *testing.T) {
+	if err := search("benchmarks/fib"); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestDescribe(t *testing.T) {
+	if err := describe("benchmarks/fib"); err != nil {
+		t.Error(err)
+	}
+}

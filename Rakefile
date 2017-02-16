@@ -3,7 +3,8 @@ require 'rake/clean'
 src=["main.go","setup.go","execute.go"]
 
 file "pkgbrew" => src do
-	sh "go build -o pkgbrew"
+	revision=`git rev-parse --verify HEAD`
+	sh "go build -o pkgbrew -ldflags '-X main.revision=#{revision}'"
 end
 
 file "trunk.tar.gz" do

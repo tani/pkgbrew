@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 )
 
 func writeFile(reader io.Reader, dest string, mode os.FileMode) error {
@@ -103,5 +104,32 @@ func pkgsrc() error {
 	if err := os.Rename(a, b); err != nil {
 		return err
 	}
+
+	mkconf:=`# Example mk.conf file produced by pkgbrew
+
+.ifdef BSD_PKG_MK	# begin pkgsrc settings
+
+ABI=			64
+PKGSRC_COMPILER=	{{cc}}
+
+UNPRIVILEGED=		yes
+PKG_DBDIR=		{{prefix}}/pkgdb
+LOCALBASE=		{{prefix}}
+VARBASE=		{{prefix}}/var
+PKG_TOOLS_BIN=		{{prefix}}/sbin
+PKGINFODIR=		info
+PKGMANDIR=		man
+MAKE_JOBS=		{{make_jobs}}
+
+TOOLS_PLATFORM.awk?=		{{prefix}}/bin/nawk
+TOOLS_PLATFORM.sh?=		/bin/bash
+
+PKG_DEFAULT_OPTIONS=    -x11 -gtk2 -gkt3 -gnome -kde
+.endif			# end pkgsrc settings
+`
+    mkconf = strings.Replace(mkconf,"{{prefix}}",prefix,-1)
+    mkconf = strings.Replace(mkconf,"{{make_jobs}}",make_jobs,-1)
+    mkconf = strings.Replace(mkconf,"{{cc}}",cc,-1)
+	ioutil.WriteFile(filepath.Join(prefix,"etc/mk.conf"),[]byte(mkconf),0x666)
 	return nil
 }
