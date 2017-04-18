@@ -53,6 +53,7 @@ $ pkgbrew -h
 ```
 $ go get github.com/ta2gch/pkgbrew
 $ MAKE_JOBS=4 CC=gcc pkgbrew --init
+$ export $PATH=$HOME/.pkgbrew/bin:$PATH
 ```
 
 binary version is comming soon.
