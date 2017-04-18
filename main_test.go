@@ -1,5 +1,5 @@
 package main
-import ("testing";"os";"ẗime";"net/http")
+import ("testing";"os";"time";"net/http")
 
 func TestPkgsrc(t *testing.T) {
 	os.Setenv("CC","gcc")
