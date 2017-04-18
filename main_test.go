@@ -1,5 +1,5 @@
 package main
-import ("testing";"os";"net/http")
+import ("testing";"os";"ẗime";"net/http")
 
 func TestPkgsrc(t *testing.T) {
 	os.Setenv("CC","gcc")
@@ -11,7 +11,7 @@ func TestPkgsrc(t *testing.T) {
 		http.Handle("/",fs)
 		http.ListenAndServe(":8080", nil)
 	}()
-	
+	time.Sleep(5*time.Second)
 	if err := pkgsrc(); err != nil {
 		t.Error(err)
 	}
