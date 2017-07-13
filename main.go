@@ -96,37 +96,37 @@ func main() {
 		return
 	}
 	if *test {
-		isNotNil(run("test", flag.Args()[2:]...))
+		isNotNil(run("test", flag.Args()[1:]...))
 	}
 	if *init {
 		isNotNil(pkgsrc())
 	}
 	if *install {
-		isNotNil(run("install", flag.Args()[2:]...))
+		isNotNil(run("install", flag.Args()[1:]...))
 	}
 	if *deinstall {
-		isNotNil(run("deinstall", flag.Args()[2:]...))
+		isNotNil(run("deinstall", flag.Args()[1:]...))
 	}
 	if *replace {
-		isNotNil(run("replace", flag.Args()[2:]...))
+		isNotNil(run("replace", flag.Args()[1:]...))
 	}
 	if *showDepends {
-		isNotNil(run("show-depends", flag.Args()[2:]...))
+		isNotNil(run("show-depends", flag.Args()[1:]...))
 	}
 	if *showOptions {
-		isNotNil(run("show-options", flag.Args()[2:]...))
+		isNotNil(run("show-options", flag.Args()[1:]...))
 	}
 	if *clean {
-		isNotNil(run("clean", flag.Args()[2:]...))
+		isNotNil(run("clean", flag.Args()[1:]...))
 	}
 	if *cleanDepends {
-		isNotNil(run("clean-depends", flag.Args()[2:]...))
+		isNotNil(run("clean-depends", flag.Args()[1:]...))
 	}
 	if *showInfomation {
-		isNotNil(describe(flag.Args()[2:]...))
+		isNotNil(describe(flag.Args()[1:]...))
 	}
 	if *searchKeywords {
-		isNotNil(search(flag.Args()[2:]...))
+		isNotNil(search(flag.Args()[1:]...))
 	}
 	if *showVersion {
 		isNotNil(version())
