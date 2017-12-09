@@ -1,5 +1,5 @@
 # pkgbrew
-[![Build Status](https://travis-ci.org/ta2gch/pkgbrew.svg?branch=master)](https://travis-ci.org/ta2gch/pkgbrew)
+[![Build Status](https://travis-ci.org/asciian/pkgbrew.svg?branch=master)](https://travis-ci.org/asciian/pkgbrew)
 
 non-root package manager
 
@@ -51,7 +51,7 @@ $ pkgbrew -h
 ## Installation
 
 ```
-$ go get github.com/ta2gch/pkgbrew
+$ go get github.com/asciian/pkgbrew
 $ MAKE_JOBS=4 CC=gcc pkgbrew --init
 $ export $PATH=$HOME/.pkgbrew/bin:$PATH
 ```
@@ -86,11 +86,11 @@ Set the CC variable in the environment before the script the starts. (`export CC
 
 ## Author
 
-TANIGUCHI Masaya
+asciian
 
 ## Copyright
 
-Copyright(c) 2016,2017 TANIGUCHI Masaya (ta2gch@gmail.com)
+Copyright(c) 2016,2017 asciian (asciian@outlook.jp)
 
 ## License
 
