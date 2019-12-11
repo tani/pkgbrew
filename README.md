@@ -1,5 +1,5 @@
 # pkgbrew
-[![Build Status](https://travis-ci.org/ta2gch/pkgbrew.svg?branch=master)](https://travis-ci.org/ta2gch/pkgbrew)
+[![Build Status](https://travis-ci.org/fgborges/pkgbrew.svg?branch=master)](https://travis-ci.org/fgborges/pkgbrew)
 
 non-root package manager
 
@@ -97,7 +97,7 @@ TANIGUCHI Masaya
 
 ## Copyright
 
-Copyright(c) 2016 TANIGUCHI Masaya (ta2gch@gmail.com)
+Copyright(c) 2019 Fernado Garcia Borges (fgborges@pm.me)
 
 ## License
 
