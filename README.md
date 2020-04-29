@@ -97,7 +97,7 @@ TANIGUCHI Masaya
 
 ## Copyright
 
-Copyright(c) 2019 Fernado Garcia Borges (fgborges@pm.me)
+Copyright(c) 2016-2020 TANIGUCHI Masaya <mew@cat.ovh>
 
 ## License
 
