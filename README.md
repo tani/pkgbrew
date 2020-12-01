@@ -59,7 +59,7 @@ $ pkgbrew help
 
 ```
 $ export MAKE_JOBS=4 # Optional
-$ wget -O- https://git.io/pkgbrew | /bin/sh
+$ wget -O- https://raw.githubusercontent.com/tani/pkgbrew/master/bin/installer | /bin/sh
 $ echo 'export PATH=$HOME/.pkgbrew/bin:$PATH' >> ~/.bashrc
 $ echo 'export MANPATH=$HOME/.pkgbrew/man:$MANPATH' >> ~/.bashrc
 ```
