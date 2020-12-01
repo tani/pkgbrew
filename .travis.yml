@@ -1,7 +1,0 @@
-language: objective-c
-env:
-  global:
-    - MAKE_JOBS=4
-    - CC=clang
-script:
-  - make test
