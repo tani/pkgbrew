@@ -1,5 +1,4 @@
 # pkgbrew
-[![Build Status](https://travis-ci.org/fgborges/pkgbrew.svg?branch=master)](https://travis-ci.org/fgborges/pkgbrew)
 
 non-root package manager
 
