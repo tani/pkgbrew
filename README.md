@@ -80,6 +80,8 @@ $ echo 'export MANPATH=$HOME/.pkgbrew/man:$MANPATH' >> ~/.bashrc
 - libncurses-devel
 - zlib and zlib-devel
 
+This software is written only in /bin/sh and awk, which means that POSIX compatibe.
+
 ### Debian/Ubuntu
 
 ```
