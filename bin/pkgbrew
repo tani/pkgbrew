@@ -3,14 +3,14 @@
 set -e
 
 : ${PKGBREW:="https://raw.githubusercontent.com/ta2gch/pkgbrew/master/bin/pkgbrew"}
-: ${PKGHOST:="https://github.com/jsonn/pkgsrc/archive/trunk.tar.gz"}
+: ${PKGHOST:="http://cdn.netbsd.org/pub/pkgsrc/stable/pkgsrc.tar.bz2"}
 : ${PKGHOME:="${HOME}/.pkgbrew"}
 : ${PKGSRC:="${PKGHOME}/src"}
 : ${MAKE_JOBS:=1}
 : ${CC:=gcc}
 version(){
     cat<<EOF
-pkgbrew revision : 0.2-16-g9d98a2d
+pkgbrew revision : v0.3.0
 pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -80,25 +80,25 @@ search(){
 
 download_1(){
     from="${1}"
-    dist="${2}"
+    dest="${2}"
     if which wget > /dev/null ; then
-	wget -O "${dist}" "${from}"
+	wget -O "${dest}" "${from}"
     elif which curl > /dev/null ; then
-	if [ "${dist}" = "-" ] ; then
+	if [ "${dest}" = "-" ] ; then
 	    curl -L "${from}"
 	else
-	    curl -L -o "${dist}" -O "${from}"
+	    curl -L -o "${dest}" -O "${from}"
 	fi
     fi
 }
 
 download(){
     from="${1}"
-    dist="${2}"
+    dest="${2}"
     case "${from}" in
-	https://*) download_1 "${from}" "${dist}" ;;
-	http://*) download_1 "${from}" "${dist}" ;;
-	*) cp "${from}" "${dist}" ;;
+	https://*) download_1 "${from}" "${dest}" ;;
+	http://*) download_1 "${from}" "${dest}" ;;
+	*) cp "${from}" "${dest}" ;;
     esac
 }
 
