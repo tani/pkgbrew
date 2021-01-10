@@ -14,21 +14,21 @@ main(){
 	
     workdir=`mktemp -d /tmp/pkgbrew.XXXXXX`
 
-    download "${PKGHOST}" "-" | tar xz -C "${workdir}"
+    download "${PKGHOST}" "-" | tar -jx -C "${workdir}"
 
     prev="${SH}"
     export SH="/bin/bash"
-    ${workdir}/pkgsrc-trunk/bootstrap/bootstrap        \
-    	--compiler=${CC}                               \
-	--ignore-user-check                            \
-	--workdir="${workdir}/work"                    \
-	--make-jobs="${MAKE_JOBS}"                     \
-	--prefix="${PKGHOME}" | awk "
+    ${workdir}/pkgsrc/bootstrap/bootstrap        \
+        --compiler=${CC}                               \
+	    --ignore-user-check                            \
+	    --workdir="${workdir}/work"                    \
+	    --make-jobs="${MAKE_JOBS}"                     \
+	    --prefix="${PKGHOME}" | awk "
 #?include src/filter.awk
 "
     export SH="${prev}"
 
-    mv "${workdir}/pkgsrc-trunk" "${PKGSRC}"
+    mv "${workdir}/pkgsrc" "${PKGSRC}"
 
     download "${PKGBREW}" "${PKGHOME}/bin/pkgbrew"
     chmod +x "${PKGHOME}/bin/pkgbrew"
