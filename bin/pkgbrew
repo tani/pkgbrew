@@ -10,7 +10,7 @@ set -e
 : ${CC:=gcc}
 version(){
     cat<<EOF
-pkgbrew revision : v0.3.0-1-ge0de36f
+pkgbrew revision : v0.3.1
 pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 
