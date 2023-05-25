@@ -10,7 +10,7 @@ set -e
 : ${CC:=gcc}
 version(){
     cat<<EOF
-pkgbrew revision : v0.3.1
+pkgbrew revision : v0.3.1-3-g09f6fcf
 pkgsrc   version : trunk
 Copyright (c) 2016 TANIGUCHI Masaya
 
@@ -148,8 +148,8 @@ untap(){
 
 update(){
     download "${PKGHOST}" "-" \
-	| tar xz --strip-components 1 -C "${PKGSRC}"
-    
+	| tar xj --strip-components 1 -C "${PKGSRC}"
+
     if [ -f "${PKGHOME}/etc/user-repositories" ]; then
 	cat "${PKGHOME}/etc/user-repositories" | while read repo ;do
 	    untap "${repo}"
