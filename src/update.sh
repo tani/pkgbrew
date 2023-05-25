@@ -4,8 +4,8 @@
 
 update(){
     download "${PKGHOST}" "-" \
-	| tar xz --strip-components 1 -C "${PKGSRC}"
-    
+	| tar xj --strip-components 1 -C "${PKGSRC}"
+
     if [ -f "${PKGHOME}/etc/user-repositories" ]; then
 	cat "${PKGHOME}/etc/user-repositories" | while read repo ;do
 	    untap "${repo}"
